@@ -1,0 +1,54 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "iam:PassRole",
+                "lambda:InvokeFunction",
+                "lambda:GetLayerVersion",
+                "iam:ListRoles",
+                "iam:CreateRole",
+                "iam:AttachRolePolicy",
+                "lambda:InvokeAsync"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": "lambda:PublishLayerVersion",
+            "Resource": "arn:aws:lambda:*:*:layer:*"
+        },
+        {
+            "Sid": "VisualEditor2",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:CreateFunction",
+                "lambda:UpdateFunctionCode",
+                "lambda:GetLayerVersion",
+                "lambda:DeleteFunction"
+            ],
+            "Resource": [
+                "arn:aws:lambda:*:*:function:*",
+                "arn:aws:lambda:*:*:layer:*:*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor3",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:CreateFunction",
+                "lambda:UpdateFunctionCode",
+                "lambda:GetLayerVersion",
+                "lambda:PublishLayerVersion",
+                "lambda:DeleteFunction"
+            ],
+            "Resource": [
+                "arn:aws:lambda:*:*:function:*",
+                "arn:aws:lambda:*:*:layer:*"
+            ]
+        }
+    ]
+}
