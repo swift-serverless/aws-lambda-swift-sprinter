@@ -267,3 +267,5 @@ This project has been inspired by the amazing work of the following people:
 - Toni Sutter : https://github.com/tonisuter/aws-lambda-swift
 
 - Sébastien Stormacq :  https://github.com/sebsto/swift-custom-runtime-lambda
+
+A special thanks to [BJSS](https://www.bjss.com) to sustain me in delivering this project.
