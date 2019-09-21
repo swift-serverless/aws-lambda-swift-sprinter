@@ -250,7 +250,7 @@ make update_lambda
 
 # Contributions
 
-Contributions are more than welcome! Follow [this guide](/https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/CONTRIBUTING.md) to contribute.
+Contributions are more than welcome! Follow [this guide](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/CONTRIBUTING.md) to contribute.
 
 # Acknowledgements
 
