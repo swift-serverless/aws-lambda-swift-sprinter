@@ -1,6 +1,6 @@
 # aws-lambda-swift-sprinter
 
-[![Swift 5](https://img.shields.io/badge/Swift-5.0-blue.svg)](https://swift.org/download/) ![](https://img.shields.io/badge/version-1.0.0.alpha.1-red)
+[![Swift 5](https://img.shields.io/badge/Swift-5.0-blue.svg)](https://swift.org/download/) ![](https://img.shields.io/badge/version-1.0.0--alpha.1-red)
 
 ![](./images/aws-lambda-swift-sprinter.png)
 
