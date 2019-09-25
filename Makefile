@@ -1,19 +1,22 @@
 
 # Use this tag to build a customized local image
 
-DOCKER_TAG=nio-swift:latest
+SWIFT_VERSION=5.1
+LAYER_VERSION=5-1
+# SWIFT_VERSION=5.0.3
+# LAYER_VERSION=5-0-3
+DOCKER_TAG=nio-swift:$(SWIFT_VERSION)
 SWIFT_DOCKER_IMAGE=$(DOCKER_TAG)
-SWIFT_LAMBDA_LIBRARY=nio-swift-lambda-runtime-5
+SWIFT_LAMBDA_LIBRARY=nio-swift-lambda-runtime-$(LAYER_VERSION)
 SWIFT_CONFIGURATION=release
-# SWIFT_FLAGS=-Xswiftc -O
 
 # Configuration
 
 # HelloWorld Example Configuration
-SWIFT_EXECUTABLE=HelloWorld
-SWIFT_PROJECT_PATH=Examples/HelloWorld
-LAMBDA_FUNCTION_NAME=HelloWorld
-LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).helloWorld
+# SWIFT_EXECUTABLE=HelloWorld
+# SWIFT_PROJECT_PATH=Examples/HelloWorld
+# LAMBDA_FUNCTION_NAME=HelloWorld
+# LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).helloWorld
 
 # HTTPSRequest Example Configuration
 # SWIFT_EXECUTABLE=HTTPSRequest
@@ -22,15 +25,15 @@ LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).helloWorld
 # LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).getHttps
 
 # S3Test Example Configuration
-# SWIFT_EXECUTABLE=S3Test
-# SWIFT_PROJECT_PATH=Examples/S3Test
-# LAMBDA_FUNCTION_NAME=S3Test
-# LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).getObject
+SWIFT_EXECUTABLE=S3Test
+SWIFT_PROJECT_PATH=Examples/S3Test
+LAMBDA_FUNCTION_NAME=S3Test
+LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).getObject
 
 # Internals
 LAMBDA_ZIP=lambda.zip
 SHARED_LIBS_FOLDER=swift-shared-libs
-LAYER_ZIP=swift-lambda-runtime.zip
+LAYER_ZIP=swift-lambda-runtime-$(LAYER_VERSION).zip
 LAMBDA_BUILD_PATH=.build
 IAM_ROLE_NAME=lambda_sprinter_basic_execution
 
@@ -79,7 +82,7 @@ docker_debug:
 			/bin/bash
 			
 docker_build:
-	docker build --tag $(DOCKER_TAG) .
+	docker build --tag $(DOCKER_TAG) docker/$(SWIFT_VERSION)/.
 
 extract_libraries:
 	docker run \
