@@ -14,6 +14,9 @@
 
 import AsyncHTTPClient
 import Foundation
+#if swift(>=5.1) && os(Linux)
+    import FoundationNetworking
+#endif
 import LambdaSwiftSprinter
 import LambdaSwiftSprinterNioPlugin
 import Logging

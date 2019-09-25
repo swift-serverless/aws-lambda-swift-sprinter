@@ -11,6 +11,24 @@
         }
       },
       {
+        "package": "LambdaSwiftSprinter",
+        "repositoryURL": "https://github.com/swift-sprinter/aws-lambda-swift-sprinter-core",
+        "state": {
+          "branch": "feature/swift-5.1",
+          "revision": "c136e224d69a86393ca9f585175f9d3753e62ed9",
+          "version": null
+        }
+      },
+      {
+        "package": "LambdaSwiftSprinterNioPlugin",
+        "repositoryURL": "https://github.com/swift-sprinter/aws-lambda-swift-sprinter-nio-plugin",
+        "state": {
+          "branch": "feature/swift-5.1",
+          "revision": "f4c620b876b116468ac25937861bd63b17b5e6dc",
+          "version": null
+        }
+      },
+      {
         "package": "swift-log",
         "repositoryURL": "https://github.com/apple/swift-log.git",
         "state": {

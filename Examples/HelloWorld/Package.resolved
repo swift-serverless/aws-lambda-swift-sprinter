@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "LambdaSwiftSprinter",
+        "repositoryURL": "https://github.com/swift-sprinter/aws-lambda-swift-sprinter-core",
+        "state": {
+          "branch": "feature/swift-5.1",
+          "revision": "c136e224d69a86393ca9f585175f9d3753e62ed9",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

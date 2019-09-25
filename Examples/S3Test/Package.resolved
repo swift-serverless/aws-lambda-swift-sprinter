@@ -2,11 +2,20 @@
   "object": {
     "pins": [
       {
+        "package": "LambdaSwiftSprinter",
+        "repositoryURL": "https://github.com/swift-sprinter/aws-lambda-swift-sprinter-core",
+        "state": {
+          "branch": "feature/swift-5.1",
+          "revision": "c136e224d69a86393ca9f585175f9d3753e62ed9",
+          "version": null
+        }
+      },
+      {
         "package": "AWSSDKSwift",
         "repositoryURL": "https://github.com/swift-aws/aws-sdk-swift.git",
         "state": {
           "branch": "nio2.0",
-          "revision": "e8f608c05322fae8d3aef2fc244927fb7c03e687",
+          "revision": "e34db0c437b9257082b4c2953b8cde7dc810857f",
           "version": null
         }
       },
@@ -15,13 +24,13 @@
         "repositoryURL": "https://github.com/swift-aws/aws-sdk-swift-core.git",
         "state": {
           "branch": "nio2.0",
-          "revision": "38d0796d09b60c9846a2f0a38ee8358b29d0756f",
+          "revision": "703fc8e9a8fa9fd6661d1f22baa15d9dfd5b779f",
           "version": null
         }
       },
       {
         "package": "HypertextApplicationLanguage",
-        "repositoryURL": "https://github.com/Yasumoto/HypertextApplicationLanguage.git",
+        "repositoryURL": "https://github.com/swift-aws/HypertextApplicationLanguage.git",
         "state": {
           "branch": null,
           "revision": "aa2c9141d491682f17b2310aed17b9adfc006256",
@@ -30,11 +39,11 @@
       },
       {
         "package": "INIParser",
-        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-INIParser.git",
+        "repositoryURL": "https://github.com/swift-aws/Perfect-INIParser.git",
         "state": {
           "branch": null,
-          "revision": "0952aac9ca54324ff25191569fd9c48eec424772",
-          "version": "3.0.2"
+          "revision": "42de0efc7a01105e19b80d533d3d282a98277f6c",
+          "version": "3.0.3"
         }
       },
       {
