@@ -24,13 +24,13 @@
         "repositoryURL": "https://github.com/Andrea-Scuderi/aws-sdk-swift-core.git",
         "state": {
           "branch": "nio2.0-swift5.1",
-          "revision": "f3f81bbe299d08ba38713fa2d641b487a52076a4",
+          "revision": "c38785480d44373de13c271b4b4771edeae4e165",
           "version": null
         }
       },
       {
         "package": "HypertextApplicationLanguage",
-        "repositoryURL": "https://github.com/Yasumoto/HypertextApplicationLanguage.git",
+        "repositoryURL": "https://github.com/swift-aws/HypertextApplicationLanguage.git",
         "state": {
           "branch": null,
           "revision": "aa2c9141d491682f17b2310aed17b9adfc006256",
@@ -39,11 +39,11 @@
       },
       {
         "package": "INIParser",
-        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-INIParser.git",
+        "repositoryURL": "https://github.com/swift-aws/Perfect-INIParser.git",
         "state": {
           "branch": null,
-          "revision": "0952aac9ca54324ff25191569fd9c48eec424772",
-          "version": "3.0.2"
+          "revision": "42de0efc7a01105e19b80d533d3d282a98277f6c",
+          "version": "3.0.3"
         }
       },
       {
