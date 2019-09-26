@@ -201,16 +201,11 @@ upload_lambda_layer:
 	cat $(LAMBDA_BUILD_PATH)/$(SWIFT_LAMBDA_LIBRARY)-arn.txt
 
 create_role:
-	$(eval IAM_ROLE_ARN := $(shell aws iam list-roles --query "Roles[? RoleName == '$(IAM_ROLE_NAME)'].Arn" --profile $(AWS_PROFILE) --output text))
-ifeq ($(IAM_ROLE_ARN),"")
-	aws iam create-role --role-name $(IAM_ROLE_NAME) --description "Allows Lambda functions to call AWS services on your behalf." --assume-role-policy-document '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Action":["sts:AssumeRole"],"Principal":{"Service":["lambda.amazonaws.com"]}}]}' --profile $(AWS_PROFILE)
-	aws iam attach-role-policy --role-name $(IAM_ROLE_NAME) --policy-arn "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole" --profile $(AWS_PROFILE)
+	aws iam create-role --role-name $(IAM_ROLE_NAME) --description "Allows Lambda functions to call AWS services on your behalf." --assume-role-policy-document '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Action":["sts:AssumeRole"],"Principal":{"Service":["lambda.amazonaws.com"]}}]}' --profile $(AWS_PROFILE) || true
+	aws iam attach-role-policy --role-name $(IAM_ROLE_NAME) --policy-arn "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole" --profile $(AWS_PROFILE) || true
     $(eval IAM_ROLE_ARN := $(shell aws iam list-roles --query "Roles[? RoleName == '$(IAM_ROLE_NAME)'].Arn" --output text --profile $(AWS_PROFILE)))
-else
-	$(info "The role $(IAM_ROLE_ARN) was already present")
-endif
 
-create_lambda: create_role
+create_lambda: create_role package_lambda
 	$(eval LAMBDA_LAYER_ARN := $(shell cat $(LAMBDA_BUILD_PATH)/$(SWIFT_LAMBDA_LIBRARY)-arn.txt))
 	$(info "$(LAMBDA_LAYER_ARN)")
 	aws lambda create-function --function-name $(LAMBDA_FUNCTION_NAME) --runtime provided --handler $(LAMBDA_HANDLER) --role "$(IAM_ROLE_ARN)" --zip-file fileb://$(LAMBDA_BUILD_PATH)/$(LAMBDA_ZIP) --layers $(LAMBDA_LAYER_ARN) --profile $(AWS_PROFILE)
