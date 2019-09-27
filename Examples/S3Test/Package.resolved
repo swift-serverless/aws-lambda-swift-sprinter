@@ -5,9 +5,9 @@
         "package": "LambdaSwiftSprinter",
         "repositoryURL": "https://github.com/swift-sprinter/aws-lambda-swift-sprinter-core",
         "state": {
-          "branch": "feature/swift-5.1",
-          "revision": "c136e224d69a86393ca9f585175f9d3753e62ed9",
-          "version": null
+          "branch": null,
+          "revision": "5a8b61f9dfe3acc0d9aa38d3cf2f6d8e257575bc",
+          "version": "1.0.0-alpha.2"
         }
       },
       {
@@ -15,7 +15,7 @@
         "repositoryURL": "https://github.com/Andrea-Scuderi/aws-sdk-swift.git",
         "state": {
           "branch": "nio2.0-swift5.1",
-          "revision": "370ca2cc0c071055a8f501153c706b16d48bf8c1",
+          "revision": "ff067f9a93062fbc15527f08ddeac2cc87ca51af",
           "version": null
         }
       },
