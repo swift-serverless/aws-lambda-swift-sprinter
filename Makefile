@@ -1,11 +1,14 @@
 
 # Use this tag to build a customized local image
 
-DOCKER_TAG=nio-swift:latest
+SWIFT_VERSION=5.1
+LAYER_VERSION=5-1
+# SWIFT_VERSION=5.0.3
+# LAYER_VERSION=5-0-3
+DOCKER_TAG=nio-swift:$(SWIFT_VERSION)
 SWIFT_DOCKER_IMAGE=$(DOCKER_TAG)
-SWIFT_LAMBDA_LIBRARY=nio-swift-lambda-runtime-5
+SWIFT_LAMBDA_LIBRARY=nio-swift-lambda-runtime-$(LAYER_VERSION)
 SWIFT_CONFIGURATION=release
-# SWIFT_FLAGS=-Xswiftc -O
 
 # Configuration
 
@@ -30,7 +33,7 @@ LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).helloWorld
 # Internals
 LAMBDA_ZIP=lambda.zip
 SHARED_LIBS_FOLDER=swift-shared-libs
-LAYER_ZIP=swift-lambda-runtime.zip
+LAYER_ZIP=swift-lambda-runtime-$(LAYER_VERSION).zip
 LAMBDA_BUILD_PATH=.build
 IAM_ROLE_NAME=lambda_sprinter_basic_execution
 
@@ -79,7 +82,7 @@ docker_debug:
 			/bin/bash
 			
 docker_build:
-	docker build --tag $(DOCKER_TAG) .
+	docker build --tag $(DOCKER_TAG) docker/$(SWIFT_VERSION)/.
 
 extract_libraries:
 	docker run \
@@ -107,16 +110,17 @@ test_package:
 			swift test
 
 create_build_directory:
-	if [ ! -d "$(LAMBDA_BUILD_PATH)" ]; then mkdir $(LAMBDA_BUILD_PATH); fi;
+	if [ ! -d "$(LAMBDA_BUILD_PATH)" ]; then mkdir $(LAMBDA_BUILD_PATH); fi
 
 package_lambda: clean_lambda create_build_directory build_lambda
 	zip -r -j $(LAMBDA_BUILD_PATH)/$(LAMBDA_ZIP) $(SWIFT_PROJECT_PATH)/.build/$(SWIFT_CONFIGURATION)/$(SWIFT_EXECUTABLE)
 
 clean_layer:
-	rm $(LAYER_ZIP) || true
+	rm $(LAMBDA_BUILD_PATH)/$(LAYER_ZIP) || true
 	rm -r $(SHARED_LIBS_FOLDER) || true
 
-package_layer: clean_layer create_build_directory
+package_layer: create_build_directory clean_layer
+	$(eval SHARED_LIBRARIES := $(shell cat docker/$(SWIFT_VERSION)/swift-shared-libraries.txt | tr '\n' ' '))
 	mkdir -p $(SHARED_LIBS_FOLDER)/lib
 	docker run \
 			--rm \
@@ -129,68 +133,7 @@ package_layer: clean_layer create_build_directory
 			--volume "$(shell pwd)/:/src" \
 			--workdir "/src" \
 			$(SWIFT_DOCKER_IMAGE) \
-			cp -t $(SHARED_LIBS_FOLDER)/lib \
-					/lib/x86_64-linux-gnu/libbsd.so.0 \
-					/lib/x86_64-linux-gnu/libc.so.6 \
-					/lib/x86_64-linux-gnu/libcom_err.so.2 \
-					/lib/x86_64-linux-gnu/libcrypt.so.1 \
-					/lib/x86_64-linux-gnu/libdl.so.2 \
-					/lib/x86_64-linux-gnu/libgcc_s.so.1 \
-					/lib/x86_64-linux-gnu/libkeyutils.so.1 \
-					/lib/x86_64-linux-gnu/liblzma.so.5 \
-					/lib/x86_64-linux-gnu/libm.so.6 \
-					/lib/x86_64-linux-gnu/libpthread.so.0 \
-					/lib/x86_64-linux-gnu/libresolv.so.2 \
-					/lib/x86_64-linux-gnu/librt.so.1 \
-					/lib/x86_64-linux-gnu/libutil.so.1 \
-					/lib/x86_64-linux-gnu/libz.so.1 \
-					/usr/lib/swift/linux/libBlocksRuntime.so \
-					/usr/lib/swift/linux/libFoundation.so \
-					/usr/lib/swift/linux/libdispatch.so \
-					/usr/lib/swift/linux/libicudataswift.so.61 \
-					/usr/lib/swift/linux/libicui18nswift.so.61 \
-					/usr/lib/swift/linux/libicuucswift.so.61 \
-					/usr/lib/swift/linux/libswiftCore.so \
-					/usr/lib/swift/linux/libswiftDispatch.so \
-					/usr/lib/swift/linux/libswiftGlibc.so \
-					/usr/lib/swift/linux/libswiftSwiftOnoneSupport.so \
-					/usr/lib/x86_64-linux-gnu/libasn1.so.8 \
-					/usr/lib/x86_64-linux-gnu/libatomic.so.1 \
-					/usr/lib/x86_64-linux-gnu/libcrypto.so.1.1 \
-					/usr/lib/x86_64-linux-gnu/libcurl.so.4 \
-					/usr/lib/x86_64-linux-gnu/libffi.so.6 \
-					/usr/lib/x86_64-linux-gnu/libgmp.so.10 \
-					/usr/lib/x86_64-linux-gnu/libgnutls.so.30 \
-					/usr/lib/x86_64-linux-gnu/libgssapi.so.3 \
-					/usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2 \
-					/usr/lib/x86_64-linux-gnu/libhcrypto.so.4 \
-					/usr/lib/x86_64-linux-gnu/libheimbase.so.1 \
-					/usr/lib/x86_64-linux-gnu/libheimntlm.so.0 \
-					/usr/lib/x86_64-linux-gnu/libhogweed.so.4 \
-					/usr/lib/x86_64-linux-gnu/libhx509.so.5 \
-					/usr/lib/x86_64-linux-gnu/libicudata.so.60 \
-					/usr/lib/x86_64-linux-gnu/libicuuc.so.60 \
-					/usr/lib/x86_64-linux-gnu/libidn2.so.0 \
-					/usr/lib/x86_64-linux-gnu/libk5crypto.so.3 \
-					/usr/lib/x86_64-linux-gnu/libkrb5.so.26 \
-					/usr/lib/x86_64-linux-gnu/libkrb5.so.3 \
-					/usr/lib/x86_64-linux-gnu/libkrb5support.so.0 \
-					/usr/lib/x86_64-linux-gnu/liblber-2.4.so.2 \
-					/usr/lib/x86_64-linux-gnu/libldap_r-2.4.so.2 \
-					/usr/lib/x86_64-linux-gnu/libnettle.so.6 \
-					/usr/lib/x86_64-linux-gnu/libnghttp2.so.14 \
-					/usr/lib/x86_64-linux-gnu/libp11-kit.so.0 \
-					/usr/lib/x86_64-linux-gnu/libpsl.so.5 \
-					/usr/lib/x86_64-linux-gnu/libroken.so.18 \
-					/usr/lib/x86_64-linux-gnu/librtmp.so.1 \
-					/usr/lib/x86_64-linux-gnu/libsasl2.so.2 \
-					/usr/lib/x86_64-linux-gnu/libsqlite3.so.0 \
-					/usr/lib/x86_64-linux-gnu/libssl.so.1.1 \
-					/usr/lib/x86_64-linux-gnu/libstdc++.so.6 \
-					/usr/lib/x86_64-linux-gnu/libtasn1.so.6 \
-					/usr/lib/x86_64-linux-gnu/libunistring.so.2 \
-					/usr/lib/x86_64-linux-gnu/libwind.so.0 \
-					/usr/lib/x86_64-linux-gnu/libxml2.so.2
+			cp -t $(SHARED_LIBS_FOLDER)/lib $(SHARED_LIBRARIES)
 	zip -r $(LAMBDA_BUILD_PATH)/$(LAYER_ZIP) bootstrap $(SHARED_LIBS_FOLDER)
 
 upload_build_to_s3:

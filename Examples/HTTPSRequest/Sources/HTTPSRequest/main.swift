@@ -14,6 +14,9 @@
 
 import AsyncHTTPClient
 import Foundation
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
 import LambdaSwiftSprinter
 import LambdaSwiftSprinterNioPlugin
 import Logging

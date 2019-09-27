@@ -6,8 +6,26 @@
         "repositoryURL": "https://github.com/swift-server/async-http-client.git",
         "state": {
           "branch": null,
-          "revision": "1b31c5a4e381f0a7119c9a41d814cf8f3183a9f7",
-          "version": "1.0.0-alpha.3"
+          "revision": "d84a1da59e0fa879cde27e01cdf9f079208cc0cc",
+          "version": "1.0.0-alpha.4"
+        }
+      },
+      {
+        "package": "LambdaSwiftSprinter",
+        "repositoryURL": "https://github.com/swift-sprinter/aws-lambda-swift-sprinter-core",
+        "state": {
+          "branch": null,
+          "revision": "5a8b61f9dfe3acc0d9aa38d3cf2f6d8e257575bc",
+          "version": "1.0.0-alpha.2"
+        }
+      },
+      {
+        "package": "LambdaSwiftSprinterNioPlugin",
+        "repositoryURL": "https://github.com/swift-sprinter/aws-lambda-swift-sprinter-nio-plugin",
+        "state": {
+          "branch": null,
+          "revision": "d9597d23f4d75be50075db0baadab9298de1f4a7",
+          "version": "1.0.0-alpha.2"
         }
       },
       {
