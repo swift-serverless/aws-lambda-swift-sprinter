@@ -15,6 +15,7 @@
 /usr/lib/swift/linux/libBlocksRuntime.so
 /usr/lib/swift/linux/libFoundation.so
 /usr/lib/swift/linux/libFoundationNetworking.so
+/usr/lib/swift/linux/libFoundationXML.so
 /usr/lib/swift/linux/libdispatch.so
 /usr/lib/swift/linux/libicudataswift.so.61
 /usr/lib/swift/linux/libicui18nswift.so.61
