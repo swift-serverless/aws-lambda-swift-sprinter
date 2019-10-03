@@ -146,12 +146,22 @@ Edit the `Makefile` to build a different Example by commenting the following lin
 ```
 ...
 
-SWIFT_EXECUTABLE=HelloWorld
-SWIFT_PROJECT_PATH=Examples/HelloWorld
-LAMBDA_FUNCTION_NAME=HelloWorld
-LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).helloWorld
+SWIFT_EXECUTABLE?=HelloWorld
+SWIFT_PROJECT_PATH?=Examples/HelloWorld
+LAMBDA_FUNCTION_NAME?=HelloWorld
+LAMBDA_HANDLER?=$(SWIFT_EXECUTABLE).helloWorld
 
 ...
+```
+
+You can also override these by passing values in the make command like below.
+
+```
+SWIFT_EXECUTABLE=HTTPSRequest \
+SWIFT_PROJECT_PATH=Examples/HTTPSRequest \
+LAMBDA_FUNCTION_NAME=HTTPSRequest \
+LAMBDA_HANDLER=${SWIFT_EXECUTABLE}.getHttps \
+  make invoke_lambda
 ```
 
 # Lambda Deployment Workflow

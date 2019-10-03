@@ -13,10 +13,10 @@ SWIFT_CONFIGURATION=release
 # Configuration
 
 # HelloWorld Example Configuration
-SWIFT_EXECUTABLE=HelloWorld
-SWIFT_PROJECT_PATH=Examples/HelloWorld
-LAMBDA_FUNCTION_NAME=HelloWorld
-LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).helloWorld
+SWIFT_EXECUTABLE?=HelloWorld
+SWIFT_PROJECT_PATH?=Examples/HelloWorld
+LAMBDA_FUNCTION_NAME?=HelloWorld
+LAMBDA_HANDLER?=$(SWIFT_EXECUTABLE).helloWorld
 
 # HTTPSRequest Example Configuration
 # SWIFT_EXECUTABLE=HTTPSRequest
@@ -46,8 +46,8 @@ DOCKER_PROJECT_PATH=aws-lambda-swift-sprinter/$(SWIFT_PROJECT_PATH)
 # DOCKER_PROJECT_PATH=$(SWIFT_PROJECT_PATH)
 
 # AWS Configuration
-AWS_PROFILE=default
-AWS_BUCKET=my-s3-bucket
+AWS_PROFILE?=default
+AWS_BUCKET?=my-s3-bucket
 
 swift_test:
 	docker run \
