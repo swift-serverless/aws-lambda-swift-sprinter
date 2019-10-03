@@ -1,8 +1,8 @@
 
 # Use this tag to build a customized local image
 
-SWIFT_VERSION=5.1
-LAYER_VERSION=5-1
+SWIFT_VERSION?=5.1
+LAYER_VERSION?=5-1
 # SWIFT_VERSION=5.0.3
 # LAYER_VERSION=5-0-3
 DOCKER_TAG=nio-swift:$(SWIFT_VERSION)
