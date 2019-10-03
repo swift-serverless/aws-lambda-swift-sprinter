@@ -163,14 +163,13 @@ make invoke_lambda \
     SWIFT_EXECUTABLE=HTTPSRequest \
     SWIFT_PROJECT_PATH=Examples/HTTPSRequest \
     LAMBDA_FUNCTION_NAME=HTTPSRequest \
-    LAMBDA_HANDLER=${SWIFT_EXECUTABLE}.getHttps
+    LAMBDA_HANDLER=HTTPSRequest.getHttps
 ```
 
 ### Parameters you can pass
 
 | Key | Usage | Default |
 | --- | --- | --- |
-| AWS_BUCKET | The AWS S3 bucket where your lambda artifacts get uploaded. | my-s3-bucket |
 | AWS_PROFILE | An AWS AIM profile you create to authenticate to your account. | default |
 | SWIFT_VERSION | Version of Swift used / Matches Dockerfile location too from `docker/` folder. | 5.1 |
 | LAYER_VERSION | Version of the Swift layer that will be created and uploaded for the Lambda to run on. | 5-1 |
