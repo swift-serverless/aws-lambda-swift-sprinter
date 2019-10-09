@@ -34,7 +34,7 @@ LAMBDA_HANDLER?=$(SWIFT_EXECUTABLE).helloWorld
 LAMBDA_ZIP=lambda.zip
 SHARED_LIBS_FOLDER=swift-shared-libs
 LAYER_ZIP=swift-lambda-runtime-$(LAYER_VERSION).zip
-LAMBDA_BUILD_PATH=.build
+LAMBDA_BUILD_PATH=./.build
 IAM_ROLE_NAME=lambda_sprinter_basic_execution
 DATETIME=$(shell date +'%y%m%d-%H%M%S')
 
@@ -137,8 +137,8 @@ package_layer: create_build_directory clean_layer
 			cp -t $(SHARED_LIBS_FOLDER)/lib $(SHARED_LIBRARIES)
 	zip -r $(LAMBDA_BUILD_PATH)/$(LAYER_ZIP) bootstrap $(SHARED_LIBS_FOLDER)
 
-upload_build_to_s3:
-	aws s3 sync --acl public-read ./.build s3://$(AWS_BUCKET)/ --profile $(AWS_PROFILE)
+upload_build_to_s3: create_lambda_s3_key
+	aws s3 sync --acl public-read "$(LAMBDA_BUILD_PATH)" s3://$(AWS_BUCKET)/$(LAMBDA_S3_UPLOAD_PATH) --profile $(AWS_PROFILE)
 
 upload_lambda_layer:
 	aws lambda publish-layer-version --layer-name $(SWIFT_LAMBDA_LIBRARY) --description "AWS Custom Runtime Swift Shared Libraries with NIO" --zip-file fileb://$(LAMBDA_BUILD_PATH)/$(LAYER_ZIP) --output text --query LayerVersionArn --profile $(AWS_PROFILE) > $(LAMBDA_BUILD_PATH)/$(SWIFT_LAMBDA_LIBRARY)-arn.txt
@@ -154,21 +154,13 @@ create_lambda: create_role package_lambda
 	$(info "$(LAMBDA_LAYER_ARN)")
 	aws lambda create-function --function-name $(LAMBDA_FUNCTION_NAME) --runtime provided --handler $(LAMBDA_HANDLER) --role "$(IAM_ROLE_ARN)" --zip-file fileb://$(LAMBDA_BUILD_PATH)/$(LAMBDA_ZIP) --layers $(LAMBDA_LAYER_ARN) --profile $(AWS_PROFILE)
 
-
-create_lambda_with_s3: create_role package_lambda
-	echo set path
+create_lambda_s3_key:
 	$(eval LAMBDA_S3_UPLOAD_PATH := $(LAMBDA_FUNCTION_NAME)/$(DATETIME))
-	echo $(LAMBDA_S3_UPLOAD_PATH)
 
-	echo upload 
-	aws s3 sync --acl public-read ./.build s3://$(AWS_BUCKET)/$(LAMBDA_S3_UPLOAD_PATH) --profile $(AWS_PROFILE)
-
-	echo create lambda
+create_lambda_with_s3: create_role package_lambda upload_build_to_s3
 	$(eval LAMBDA_LAYER_ARN := $(shell cat $(LAMBDA_BUILD_PATH)/$(SWIFT_LAMBDA_LIBRARY)-arn.txt))
 	$(info "$(LAMBDA_LAYER_ARN)")
-	echo $(LAMBDA_S3_UPLOAD_PATH)
 	aws lambda create-function --function-name $(LAMBDA_FUNCTION_NAME) --runtime provided --handler $(LAMBDA_HANDLER) --role "$(IAM_ROLE_ARN)" --code "S3Bucket=$(AWS_BUCKET),S3Key=$(LAMBDA_S3_UPLOAD_PATH)/$(LAMBDA_ZIP)" --layers $(LAMBDA_LAYER_ARN) --profile $(AWS_PROFILE)
-	echo $(LAMBDA_S3_UPLOAD_PATH)
 
 update_lambda: package_lambda
 	aws lambda update-function-code --function-name $(LAMBDA_FUNCTION_NAME) --zip-file fileb://$(LAMBDA_BUILD_PATH)/$(LAMBDA_ZIP) --profile $(AWS_PROFILE)
