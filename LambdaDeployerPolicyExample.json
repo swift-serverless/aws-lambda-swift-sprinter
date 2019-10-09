@@ -49,6 +49,15 @@
                 "arn:aws:lambda:*:*:function:*",
                 "arn:aws:lambda:*:*:layer:*"
             ]
+        },
+        {
+            "Sid": "VisualEditor4",
+            "Effect": "Allow",
+            "Action": [
+                "s3:CreateBucket",
+                "s3:ListBucket"
+            ],
+            "Resource": "arn:aws:s3:::*"
         }
     ]
 }

@@ -181,8 +181,8 @@ invoke_lambda:
 	aws lambda invoke --function-name $(LAMBDA_FUNCTION_NAME) --profile $(AWS_PROFILE) --payload "fileb://$(SWIFT_PROJECT_PATH)/event.json" $(LAMBDA_BUILD_PATH)/outfile && echo "\nResult:" && cat $(LAMBDA_BUILD_PATH)/outfile && echo "\n"
 
 create_s3_buckets_if_not_existing:
-	aws s3 ls "s3://$(AWS_BUCKET)" --summarize || aws s3 mb "s3://$(AWS_BUCKET)"
-	aws s3 ls "s3://$(AWS_LAYER_BUCKET)" --summarize || aws s3 mb "s3://$(AWS_LAYER_BUCKET)"
+	aws s3 ls "s3://$(AWS_BUCKET)" || aws s3 mb "s3://$(AWS_BUCKET)"
+	aws s3 ls "s3://$(AWS_LAYER_BUCKET)" || aws s3 mb "s3://$(AWS_LAYER_BUCKET)"
 
 #quick commands - no clean
 quick_build_lambda: build_lambda create_build_directory
