@@ -138,7 +138,7 @@ package_layer: create_build_directory clean_layer
 	zip -r $(LAMBDA_BUILD_PATH)/$(LAYER_ZIP) bootstrap $(SHARED_LIBS_FOLDER)
 
 upload_build_to_s3: create_lambda_s3_key
-	aws s3 sync --acl public-read "$(LAMBDA_BUILD_PATH)" s3://$(AWS_BUCKET)/$(LAMBDA_S3_UPLOAD_PATH) --profile $(AWS_PROFILE)
+	aws s3 cp --acl public-read "$(LAMBDA_BUILD_PATH)/$(LAMBDA_ZIP)" s3://$(AWS_BUCKET)/$(LAMBDA_S3_UPLOAD_PATH)/$(LAMBDA_ZIP) --profile $(AWS_PROFILE)
 
 upload_lambda_layer:
 	aws lambda publish-layer-version --layer-name $(SWIFT_LAMBDA_LIBRARY) --description "AWS Custom Runtime Swift Shared Libraries with NIO" --zip-file fileb://$(LAMBDA_BUILD_PATH)/$(LAYER_ZIP) --output text --query LayerVersionArn --profile $(AWS_PROFILE) > $(LAMBDA_BUILD_PATH)/$(SWIFT_LAMBDA_LIBRARY)-arn.txt
