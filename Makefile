@@ -37,6 +37,7 @@ LAYER_ZIP=swift-lambda-runtime-$(LAYER_VERSION).zip
 LAMBDA_BUILD_PATH=./.build
 IAM_ROLE_NAME=lambda_sprinter_basic_execution
 DATETIME=$(shell date +'%y%m%d-%H%M%S')
+AWS_LAYER_BUCKET=aws-lambda-swift-sprinter-layers
 
 # use this for local development
 MOUNT_ROOT=$(shell pwd)/..
@@ -139,6 +140,14 @@ package_layer: create_build_directory clean_layer
 
 upload_build_to_s3: create_lambda_s3_key
 	aws s3 cp --acl public-read "$(LAMBDA_BUILD_PATH)/$(LAMBDA_ZIP)" s3://$(AWS_BUCKET)/$(LAMBDA_S3_UPLOAD_PATH)/$(LAMBDA_ZIP) --profile $(AWS_PROFILE)
+
+create_layer_s3_key:
+	$(eval LAYER_S3_UPLOAD_PATH := $(SWIFT_LAMBDA_LIBRARY)/$(DATETIME))
+
+upload_lambda_layer_with_s3: create_layer_s3_key
+	aws s3 cp --acl public-read "$(LAMBDA_BUILD_PATH)/$(LAYER_ZIP)" s3://$(AWS_LAYER_BUCKET)/$(LAYER_S3_UPLOAD_PATH)/$(LAYER_ZIP) --profile $(AWS_PROFILE)
+	aws lambda publish-layer-version --layer-name $(SWIFT_LAMBDA_LIBRARY) --description "AWS Custom Runtime Swift Shared Libraries with NIO" --content "S3Bucket=$(AWS_LAYER_BUCKET),S3Key=$(LAYER_S3_UPLOAD_PATH)/$(LAYER_ZIP)" --output text --query LayerVersionArn --profile $(AWS_PROFILE) > $(LAMBDA_BUILD_PATH)/$(SWIFT_LAMBDA_LIBRARY)-arn.txt
+	cat $(LAMBDA_BUILD_PATH)/$(SWIFT_LAMBDA_LIBRARY)-arn.txt
 
 upload_lambda_layer:
 	aws lambda publish-layer-version --layer-name $(SWIFT_LAMBDA_LIBRARY) --description "AWS Custom Runtime Swift Shared Libraries with NIO" --zip-file fileb://$(LAMBDA_BUILD_PATH)/$(LAYER_ZIP) --output text --query LayerVersionArn --profile $(AWS_PROFILE) > $(LAMBDA_BUILD_PATH)/$(SWIFT_LAMBDA_LIBRARY)-arn.txt
