@@ -36,6 +36,7 @@ SHARED_LIBS_FOLDER=swift-shared-libs
 LAYER_ZIP=swift-lambda-runtime-$(LAYER_VERSION).zip
 LAMBDA_BUILD_PATH=.build
 IAM_ROLE_NAME=lambda_sprinter_basic_execution
+DATETIME=$(shell date +'%y%m%d-%H%M%S')
 
 # use this for local development
 MOUNT_ROOT=$(shell pwd)/..
@@ -47,7 +48,7 @@ DOCKER_PROJECT_PATH=aws-lambda-swift-sprinter/$(SWIFT_PROJECT_PATH)
 
 # AWS Configuration
 AWS_PROFILE?=default
-AWS_BUCKET?=my-s3-bucket
+AWS_BUCKET?=aws-lambda-swift-sprinter
 
 swift_test:
 	docker run \
@@ -152,6 +153,22 @@ create_lambda: create_role package_lambda
 	$(eval LAMBDA_LAYER_ARN := $(shell cat $(LAMBDA_BUILD_PATH)/$(SWIFT_LAMBDA_LIBRARY)-arn.txt))
 	$(info "$(LAMBDA_LAYER_ARN)")
 	aws lambda create-function --function-name $(LAMBDA_FUNCTION_NAME) --runtime provided --handler $(LAMBDA_HANDLER) --role "$(IAM_ROLE_ARN)" --zip-file fileb://$(LAMBDA_BUILD_PATH)/$(LAMBDA_ZIP) --layers $(LAMBDA_LAYER_ARN) --profile $(AWS_PROFILE)
+
+
+create_lambda_with_s3: create_role package_lambda
+	echo set path
+	$(eval LAMBDA_S3_UPLOAD_PATH := $(LAMBDA_FUNCTION_NAME)/$(DATETIME))
+	echo $(LAMBDA_S3_UPLOAD_PATH)
+
+	echo upload 
+	aws s3 sync --acl public-read ./.build s3://$(AWS_BUCKET)/$(LAMBDA_S3_UPLOAD_PATH) --profile $(AWS_PROFILE)
+
+	echo create lambda
+	$(eval LAMBDA_LAYER_ARN := $(shell cat $(LAMBDA_BUILD_PATH)/$(SWIFT_LAMBDA_LIBRARY)-arn.txt))
+	$(info "$(LAMBDA_LAYER_ARN)")
+	echo $(LAMBDA_S3_UPLOAD_PATH)
+	aws lambda create-function --function-name $(LAMBDA_FUNCTION_NAME) --runtime provided --handler $(LAMBDA_HANDLER) --role "$(IAM_ROLE_ARN)" --code "S3Bucket=$(AWS_BUCKET),S3Key=$(LAMBDA_S3_UPLOAD_PATH)/$(LAMBDA_ZIP)" --layers $(LAMBDA_LAYER_ARN) --profile $(AWS_PROFILE)
+	echo $(LAMBDA_S3_UPLOAD_PATH)
 
 update_lambda: package_lambda
 	aws lambda update-function-code --function-name $(LAMBDA_FUNCTION_NAME) --zip-file fileb://$(LAMBDA_BUILD_PATH)/$(LAMBDA_ZIP) --profile $(AWS_PROFILE)
