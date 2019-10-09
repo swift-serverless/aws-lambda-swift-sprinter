@@ -165,6 +165,9 @@ create_lambda_with_s3: create_role package_lambda upload_build_to_s3
 update_lambda: package_lambda
 	aws lambda update-function-code --function-name $(LAMBDA_FUNCTION_NAME) --zip-file fileb://$(LAMBDA_BUILD_PATH)/$(LAMBDA_ZIP) --profile $(AWS_PROFILE)
 
+update_lambda_with_s3: package_lambda upload_build_to_s3
+	aws lambda update-function-code --function-name $(LAMBDA_FUNCTION_NAME) --s3-bucket $(AWS_BUCKET) --s3-key "$(LAMBDA_S3_UPLOAD_PATH)/$(LAMBDA_ZIP)" --profile $(AWS_PROFILE)
+
 invoke_lambda:
 	aws lambda invoke --function-name $(LAMBDA_FUNCTION_NAME) --profile $(AWS_PROFILE) --payload "fileb://$(SWIFT_PROJECT_PATH)/event.json" $(LAMBDA_BUILD_PATH)/outfile && echo "\nResult:" && cat $(LAMBDA_BUILD_PATH)/outfile && echo "\n"
 
