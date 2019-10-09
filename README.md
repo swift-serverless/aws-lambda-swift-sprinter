@@ -224,17 +224,36 @@ It would be better to restrict the policy to the function and layer you want to 
 It's suggested to test the following scripts before using in production.
 
 #### 1) Upload the Lambda layer
-Create a new lambda layer using the `swift-lambda-runtime.zip` file:
+Create a new lambda layer using the `swift-lambda-runtime.zip` file. This step is required once, however you are free to run it if you need to update your layer.
+
+##### Upload the Lambda using S3
+
+```console
+make upload_lambda_layer_with_s3
+```
+
+Datetime based versions are created and uploaded to S3 every time your version is created.
+
+##### Upload the Lambda directly
 
 ```console
 make upload_lambda_layer
 ```
 
-This step is required once, or if you need to update the layer.
-
 #### 2) Create the Lambda
 
-Create a new lambda, this might take a few minutes:
+You can create a new lambda which might take a few minutes using one of the options below:
+
+##### Create the Lambda using S3
+
+```console
+make create_lambda_with_s3
+```
+
+Datetime based versions are created and uploaded to S3 every time your version is created.
+
+##### Create the Lambda directly
+
 ```console
 make create_lambda
 ```
@@ -280,10 +299,18 @@ The lambda invocation may require some policy to access other AWS Resources. Che
 
 #### 5) Update the Lambda (optional)
 
-If it's required to update the lambda code, launch the following command:
+If needed, you will also be able to update your Lambda using one of the commands below:
+
+##### Update the Lambda using S3
 
 ```console
 make update_lambda
+```
+
+##### Update the Lambda directly
+
+```console
+make update_lambda_with_s3
 ```
 
 # Contributions
