@@ -145,13 +145,13 @@ package_layer: create_build_directory clean_layer
 			cp -t $(SHARED_LIBS_FOLDER)/lib $(SHARED_LIBRARIES)
 	zip -r $(LAYER_BUILD_PATH)/$(LAYER_ZIP) bootstrap $(SHARED_LIBS_FOLDER)
 
-upload_build_to_s3: create_lambda_s3_key create_s3_bucket_if_not_existing
+upload_build_to_s3: create_lambda_s3_key
 	aws s3 sync --acl public-read "$(LAMBDA_BUILD_PATH)" s3://$(AWS_BUCKET)/$(LAMBDA_S3_UPLOAD_PATH) --profile $(AWS_PROFILE)
 
 create_layer_s3_key:
 	$(eval LAYER_S3_UPLOAD_PATH := layers/$(SWIFT_LAMBDA_LIBRARY))
 
-upload_lambda_layer_with_s3: create_s3_bucket_if_not_existing create_layer_s3_key
+upload_lambda_layer_with_s3: create_layer_s3_key
 	aws s3 sync --acl public-read "$(LAYER_BUILD_PATH)" s3://$(AWS_BUCKET)/$(LAYER_S3_UPLOAD_PATH) --profile $(AWS_PROFILE)
 	aws lambda publish-layer-version --layer-name $(SWIFT_LAMBDA_LIBRARY) --description "AWS Custom Runtime Swift Shared Libraries with NIO" --content "S3Bucket=$(AWS_BUCKET),S3Key=$(LAYER_S3_UPLOAD_PATH)/$(LAYER_ZIP)" --output text --query LayerVersionArn --profile $(AWS_PROFILE) > $(TMP_BUILD_PATH)/$(SWIFT_LAMBDA_LIBRARY)-arn.txt
 	cat $(TMP_BUILD_PATH)/$(SWIFT_LAMBDA_LIBRARY)-arn.txt
@@ -168,7 +168,7 @@ create_role:
 create_lambda: create_role package_lambda
 	$(eval LAMBDA_LAYER_ARN := $(shell cat $(TMP_BUILD_PATH)/$(SWIFT_LAMBDA_LIBRARY)-arn.txt))
 	$(info "$(LAMBDA_LAYER_ARN)")
-	aws lambda create-function --function-name $(LAMBDA_FUNCTION_NAME) --runtime provided --handler $(LAMBDA_HANDLER) --role "$(IAM_ROLE_ARN)" --zip-file fileb://$(LAMBDA_BUILD_PATH)/$(LAMBDA_ZIP) --layers $(LAMBDA_LAYER_ARN) --profile $(AWS_PROFILE)
+	aws lambda create-function --function-name $(LAMBDA_FUNCTION_NAME) --runtime provided --handler $(LAMBDA_HANDLER) --role "$(IAM_ROLE_ARN)" --zip-file fileb://$(LAMBDA_BUILD_PATH)/$(LAMBDA_ZIP) --layers "$(LAMBDA_LAYER_ARN)" --profile $(AWS_PROFILE)
 
 create_lambda_s3_key:
 	$(eval LAMBDA_S3_UPLOAD_PATH := lambdas/$(LAMBDA_FUNCTION_NAME)/$(DATETIME))
@@ -176,7 +176,7 @@ create_lambda_s3_key:
 create_lambda_with_s3: create_role package_lambda upload_build_to_s3
 	$(eval LAMBDA_LAYER_ARN := $(shell cat $(TMP_BUILD_PATH)/$(SWIFT_LAMBDA_LIBRARY)-arn.txt))
 	$(info "$(LAMBDA_LAYER_ARN)")
-	aws lambda create-function --function-name $(LAMBDA_FUNCTION_NAME) --runtime provided --handler $(LAMBDA_HANDLER) --role "$(IAM_ROLE_ARN)" --code "S3Bucket=$(AWS_BUCKET),S3Key=$(LAMBDA_S3_UPLOAD_PATH)/$(LAMBDA_ZIP)" --layers $(LAMBDA_LAYER_ARN) --profile $(AWS_PROFILE)
+	aws lambda create-function --function-name $(LAMBDA_FUNCTION_NAME) --runtime provided --handler $(LAMBDA_HANDLER) --role "$(IAM_ROLE_ARN)" --code "S3Bucket=$(AWS_BUCKET),S3Key=$(LAMBDA_S3_UPLOAD_PATH)/$(LAMBDA_ZIP)" --layers "$(LAMBDA_LAYER_ARN)"--profile $(AWS_PROFILE)
 
 update_lambda: package_lambda
 	aws lambda update-function-code --function-name $(LAMBDA_FUNCTION_NAME) --zip-file fileb://$(LAMBDA_BUILD_PATH)/$(LAMBDA_ZIP) --profile $(AWS_PROFILE)
@@ -187,8 +187,8 @@ update_lambda_with_s3: package_lambda upload_build_to_s3
 invoke_lambda:
 	aws lambda invoke --function-name $(LAMBDA_FUNCTION_NAME) --profile $(AWS_PROFILE) --payload "fileb://$(SWIFT_PROJECT_PATH)/event.json" $(TMP_BUILD_PATH)/outfile && echo "\nResult:" && cat $(TMP_BUILD_PATH)/outfile && echo "\n"
 
-create_s3_bucket_if_not_existing:
-	aws s3 ls "s3://$(AWS_BUCKET)" || aws s3 mb "s3://$(AWS_BUCKET)"
+create_s3_bucket:
+	aws s3 mb "s3://$(AWS_BUCKET)" --profile $(AWS_PROFILE)
 
 #quick commands - no clean
 quick_build_lambda: build_lambda create_build_directory
