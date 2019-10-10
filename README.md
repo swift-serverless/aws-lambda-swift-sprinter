@@ -212,7 +212,7 @@ Steps:
 
 There are many ways to achieve a lambda deployment (AWS Console, SAM, CloudFormation ...), please refer to the latest [AWS Lambda documentation](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) to know more.
 
-#### Requirements
+## Requirements
 
 - an AWS account for test purpose.
 - aws cli: Install the aws cli. Here the [instructions](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html).
@@ -244,7 +244,7 @@ Datetime based versions are created and uploaded to S3 every time your version i
 make upload_lambda_layer
 ```
 
-#### 2) Create the Lambda
+### 2) Create the Lambda
 
 You can create a new lambda which might take a few minutes using one of the options below:
 
@@ -277,7 +277,7 @@ The lambda is created with the following parameters:
 
 This step is required once, if you need to update the lambda use the step 5.
 
-#### 4) Invoke the Lambda
+### 4) Invoke the Lambda
 Now the lambda function is ready for testing. The following command invokes the lambda with using the file **event.json** contained in the project folder.
 
 ```console
@@ -301,7 +301,7 @@ Note:
 
 The lambda invocation may require some policy to access other AWS Resources. Check the `S3Test` example to know more.
 
-#### 5) Update the Lambda (optional)
+### 5) Update the Lambda (optional)
 
 If needed, you will also be able to update your Lambda using one of the commands below:
 
@@ -316,6 +316,16 @@ make update_lambda_with_s3
 ```console
 make update_lambda
 ```
+
+### 6) Nuclear option
+
+Sometimes you want to go back to a clean slate and we have a command for that which will rely on the parameters you use.
+
+```console
+make nuke
+```
+
+That command will clean your local build folders and delete S3 buckets, lambdas and layers created based off the configuration you use.
 
 # Update the lambda layer
 
