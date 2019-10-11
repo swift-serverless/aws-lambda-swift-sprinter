@@ -2,7 +2,7 @@ import class Foundation.Bundle
 import XCTest
 
 final class S3TestTests: XCTestCase {
-    func testExample() throws {
+    func testMissingLambdaRuntimeApi() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
@@ -25,8 +25,10 @@ final class S3TestTests: XCTestCase {
 
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = String(data: data, encoding: .utf8)
+        
+        let isError = output?.contains("missingEnvironmentVariables(LambdaSwiftSprinter.Context.AWSEnvironmentKey.lambdaRuntimeApi)")
 
-        XCTAssertEqual(output, "")
+        XCTAssertEqual(isError, true)
     }
 
     /// Returns path to the built products directory.
@@ -42,6 +44,6 @@ final class S3TestTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testMissingLambdaRuntimeApi", testMissingLambdaRuntimeApi),
     ]
 }

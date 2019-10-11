@@ -3,5 +3,6 @@ import XCTest
 import HTTPSRequestTests
 
 var tests = [XCTestCaseEntry]()
-tests += HTTPSRequestTests.allTests()
+tests += HTTPSRequestTests.__allTests()
+
 XCTMain(tests)

@@ -1,6 +1,6 @@
 # aws-lambda-swift-sprinter
 
-[![Swift 5](https://img.shields.io/badge/Swift-5.0-blue.svg)](https://swift.org/download/) [![Swift 5.1](https://img.shields.io/badge/Swift-5.1-blue.svg)](https://swift.org/download/)  ![](https://img.shields.io/badge/version-1.0.0--alpha.2-red)
+[![Swift 5](https://img.shields.io/badge/Swift-5.0-blue.svg)](https://swift.org/download/) [![Swift 5.1](https://img.shields.io/badge/Swift-5.1-blue.svg)](https://swift.org/download/)  ![](https://img.shields.io/badge/version-1.0.0--alpha.2-red) ![](https://travis-ci.com/swift-sprinter/aws-lambda-swift-sprinter.svg?branch=master)
 
 ![](./images/aws-lambda-swift-sprinter.png)
 
@@ -208,7 +208,7 @@ Steps:
     - Function code
     - Test event
 
-There are many ways to achieve a lambda deployment (AWS Console, SAM, ClodFormation ...), please refer to the latest [AWS Lambda documentation](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) to know more.
+There are many ways to achieve a lambda deployment (AWS Console, SAM, CloudFormation ...), please refer to the latest [AWS Lambda documentation](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) to know more.
 
 #### Requirements
 

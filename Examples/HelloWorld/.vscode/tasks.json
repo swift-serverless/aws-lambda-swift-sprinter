@@ -1,0 +1,34 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "swift build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "test",
+            "type": "shell",
+            "command": "swift test --enable-code-coverage || true",
+            "group": "test"
+        },
+        {
+            "label": "codecov",
+            "type": "shell",
+            "command": "llvm-cov export ${workspaceFolder}/.build/x86_64-unknown-linux/debug/HelloWorld -instr-profile=${workspaceFolder}/.build/x86_64-unknown-linux/debug/codecov/default.profdata -format=lcov > ${workspaceFolder}/.build/x86_64-unknown-linux/debug/codecov/lcov.info",
+            "group": "test",
+            "dependsOn":["test"]
+        },
+        {
+            "label": "run",
+            "type": "shell",
+            "command": "swift run"
+        }
+    ]
+}

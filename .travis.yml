@@ -1,0 +1,26 @@
+os:
+  - linux
+language: generic
+sudo: required
+dist: xenial
+
+services:
+  - docker
+
+addons:
+    snaps:
+      - name: aws-cli
+        confinement: classic # or devmode
+        channel: latest/edge
+
+install:
+  - make --version
+  - make docker_build
+
+script:
+  - docker image ls
+  - make package_layer
+  - make package_lambda
+  - make swift_test
+  - make swift_test SWIFT_EXECUTABLE=HTTPSRequest SWIFT_PROJECT_PATH=Examples/HTTPSRequest LAMBDA_FUNCTION_NAME=HTTPSRequest LAMBDA_HANDLER=HTTPSRequest.getHttps
+  - make swift_test SWIFT_EXECUTABLE=S3Test SWIFT_PROJECT_PATH=Examples/S3Test LAMBDA_FUNCTION_NAME=S3Test LAMBDA_HANDLER=S3Test.getObject
