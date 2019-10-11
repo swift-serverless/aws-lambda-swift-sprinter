@@ -19,6 +19,13 @@
             "group": "test"
         },
         {
+            "label": "codecov",
+            "type": "shell",
+            "command": "llvm-cov export ${workspaceFolder}/.build/x86_64-unknown-linux/debug/HTTPSRequest -instr-profile=${workspaceFolder}/.build/x86_64-unknown-linux/debug/codecov/default.profdata -format=lcov > ${workspaceFolder}/.build/x86_64-unknown-linux/debug/codecov/lcov.info",
+            "group": "test",
+            "dependsOn":["test"]
+        },
+        {
             "label": "run",
             "type": "shell",
             "command": "swift run"

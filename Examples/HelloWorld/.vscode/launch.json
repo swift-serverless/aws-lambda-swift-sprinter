@@ -20,7 +20,7 @@
             "name": "Test",
             "args": [],
             "cwd": "${workspaceFolder}",
-            "preLaunchTask": "test"
+            "preLaunchTask": "codecov"
         }
     ]
 }
