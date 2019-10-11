@@ -304,13 +304,13 @@ If needed, you will also be able to update your Lambda using one of the commands
 ##### Update the Lambda using S3
 
 ```console
-make update_lambda
+make update_lambda_with_s3
 ```
 
 ##### Update the Lambda directly
 
 ```console
-make update_lambda_with_s3
+make update_lambda
 ```
 
 #### 6) Create bucket
