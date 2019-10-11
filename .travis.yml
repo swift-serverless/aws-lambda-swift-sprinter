@@ -1,0 +1,18 @@
+os:
+  - linux
+language: generic
+sudo: required
+dist: xenial
+
+services:
+  - docker
+
+install:
+  - make --version
+  - make docker_build
+
+script:
+  - docker image ls
+  - make package_layer
+  - make package_lambda
+  - make swift_test
