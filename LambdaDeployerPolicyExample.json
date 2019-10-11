@@ -49,6 +49,12 @@
                 "arn:aws:lambda:*:*:function:*",
                 "arn:aws:lambda:*:*:layer:*"
             ]
+        },
+        {
+            "Sid": "VisualEditor4",
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::aws-lambda-swift-sprinter*"
         }
     ]
 }
