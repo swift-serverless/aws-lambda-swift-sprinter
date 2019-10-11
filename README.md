@@ -208,7 +208,7 @@ Steps:
     - Function code
     - Test event
 
-There are many ways to achieve a lambda deployment (AWS Console, SAM, ClodFormation ...), please refer to the latest [AWS Lambda documentation](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) to know more.
+There are many ways to achieve a lambda deployment (AWS Console, SAM, CloudFormation ...), please refer to the latest [AWS Lambda documentation](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) to know more.
 
 #### Requirements
 
