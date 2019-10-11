@@ -2,7 +2,7 @@ import class Foundation.Bundle
 import XCTest
 
 final class HelloWorldTests: XCTestCase {
-    func testExample() throws {
+    func testMissingLambdaRuntimeApi() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
@@ -18,7 +18,7 @@ final class HelloWorldTests: XCTestCase {
         process.executableURL = fooBinary
 
         let pipe = Pipe()
-        process.standardOutput = pipe
+        process.standardError = pipe
 
         try process.run()
         process.waitUntilExit()
@@ -26,7 +26,7 @@ final class HelloWorldTests: XCTestCase {
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = String(data: data, encoding: .utf8)
 
-        XCTAssertEqual(output, "Hello, world!\n")
+        XCTAssertEqual(output, "missingEnvironmentVariables(LambdaSwiftSprinter.Context.AWSEnvironmentKey.lambdaRuntimeApi)\n")
     }
 
     /// Returns path to the built products directory.
@@ -42,6 +42,6 @@ final class HelloWorldTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testMissingLambdaRuntimeApi", testMissingLambdaRuntimeApi),
     ]
 }
