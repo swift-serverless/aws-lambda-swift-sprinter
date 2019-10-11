@@ -7,6 +7,12 @@ dist: xenial
 services:
   - docker
 
+addons:
+    snaps:
+      - name: aws-cli
+        confinement: classic # or devmode
+        channel: latest/edge
+
 install:
   - make --version
   - make docker_build
