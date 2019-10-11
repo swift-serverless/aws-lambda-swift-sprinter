@@ -176,7 +176,7 @@ create_lambda_s3_key:
 create_lambda_with_s3: create_role package_lambda upload_build_to_s3
 	$(eval LAMBDA_LAYER_ARN := $(shell cat $(TMP_BUILD_PATH)/$(SWIFT_LAMBDA_LIBRARY)-arn.txt))
 	$(info "$(LAMBDA_LAYER_ARN)")
-	aws lambda create-function --function-name $(LAMBDA_FUNCTION_NAME) --runtime provided --handler $(LAMBDA_HANDLER) --role "$(IAM_ROLE_ARN)" --code "S3Bucket=$(AWS_BUCKET),S3Key=$(LAMBDA_S3_UPLOAD_PATH)/$(LAMBDA_ZIP)" --layers "$(LAMBDA_LAYER_ARN)"--profile $(AWS_PROFILE)
+	aws lambda create-function --function-name $(LAMBDA_FUNCTION_NAME) --runtime provided --handler $(LAMBDA_HANDLER) --role "$(IAM_ROLE_ARN)" --code "S3Bucket=$(AWS_BUCKET),S3Key=$(LAMBDA_S3_UPLOAD_PATH)/$(LAMBDA_ZIP)" --layers "$(LAMBDA_LAYER_ARN)" --profile $(AWS_PROFILE)
 
 update_lambda: package_lambda
 	aws lambda update-function-code --function-name $(LAMBDA_FUNCTION_NAME) --zip-file fileb://$(LAMBDA_BUILD_PATH)/$(LAMBDA_ZIP) --profile $(AWS_PROFILE)
@@ -195,4 +195,4 @@ quick_build_lambda: build_lambda create_build_directory
 	zip -r -j $(LAMBDA_BUILD_PATH)/$(LAMBDA_ZIP) $(SWIFT_PROJECT_PATH)/.build/$(SWIFT_CONFIGURATION)/$(SWIFT_EXECUTABLE)
 
 quick_deploy_lambda: quick_build_lambda create_build_directory
-	aws lambda update-function-code --function-name $(LAMBDA_FUNCTION_NAME) --zip-file fileb://$(LAMBDA_BUILD_PATH)/lambda.zip --profile $(AWS_PROFILE)
+	aws lambda update-function-code --function-name $(LAMBDA_FUNCTION_NAME) --zip-file fileb://$(LAMBDA_BUILD_PATH)/$(LAMBDA_ZIP) --profile $(AWS_PROFILE)
