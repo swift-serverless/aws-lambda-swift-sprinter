@@ -1,0 +1,23 @@
+{
+    "name": "Swift",
+    "dockerFile": "Dockerfile",
+
+    "runArgs": [
+        "-u", "vscode",
+        "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined"
+    ],
+
+    "settings": {
+		"lldb.adapterType": "bundled",
+		"lldb.executable": "/usr/bin/lldb",
+		"terminal.integrated.shell.linux": "/bin/bash"
+	},
+
+    // Uncomment the next line if you want to publish any ports.
+	// "appPort": [],
+
+    "extensions": [
+		"pvasek.sourcekit-lsp--dev-unofficial",
+		"vadimcn.vscode-lldb"
+	]
+}

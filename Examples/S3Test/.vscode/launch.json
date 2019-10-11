@@ -1,0 +1,27 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug",
+            "program": "${workspaceFolder}/.build/x86_64-unknown-linux/debug/S3Test",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "build"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/.build/x86_64-unknown-linux/debug/S3TestPackageTests.xctest",
+            "name": "Test",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "test"
+        }
+    ]
+}
