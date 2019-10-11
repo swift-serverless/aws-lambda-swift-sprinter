@@ -30,6 +30,11 @@ LAMBDA_HANDLER?=$(SWIFT_EXECUTABLE).helloWorld
 # LAMBDA_FUNCTION_NAME=S3Test
 # LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).getObject
 
+# AWS Configuration
+IAM_ROLE_NAME?=lambda_sprinter_basic_execution
+AWS_PROFILE?=default
+AWS_BUCKET?=aws-lambda-swift-sprinter
+
 # Internals
 LAMBDA_ZIP=lambda.zip
 SHARED_LIBS_FOLDER=swift-shared-libs
@@ -38,7 +43,6 @@ ROOT_BUILD_PATH=./.build
 LAYER_BUILD_PATH=$(ROOT_BUILD_PATH)/layer
 LAMBDA_BUILD_PATH=$(ROOT_BUILD_PATH)/lambda
 TMP_BUILD_PATH=$(ROOT_BUILD_PATH)/tmp
-IAM_ROLE_NAME=lambda_sprinter_basic_execution
 DATETIME=$(shell date +'%y%m%d-%H%M%S')
 
 # use this for local development
@@ -48,10 +52,6 @@ DOCKER_PROJECT_PATH=aws-lambda-swift-sprinter/$(SWIFT_PROJECT_PATH)
 # normal development
 # MOUNT_ROOT=$(shell pwd)
 # DOCKER_PROJECT_PATH=$(SWIFT_PROJECT_PATH)
-
-# AWS Configuration
-AWS_PROFILE?=default
-AWS_BUCKET?=aws-lambda-swift-sprinter
 
 swift_test:
 	docker run \

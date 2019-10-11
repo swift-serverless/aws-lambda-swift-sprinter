@@ -171,6 +171,8 @@ make invoke_lambda \
 | Key | Usage | Default |
 | --- | --- | --- |
 | AWS_PROFILE | An AWS AIM profile you create to authenticate to your account. | default |
+| IAM_ROLE_NAME | The execution role created that will be assumed by the Lambda. | lambda_sprinter_basic_execution |
+| AWS_BUCKET | The AWS S3 bucket where the layer and lambdas zip files get uploaded. | aws-lambda-swift-sprinter |
 | SWIFT_VERSION | Version of Swift used / Matches Dockerfile location too from `docker/` folder. | 5.1 |
 | LAYER_VERSION | Version of the Swift layer that will be created and uploaded for the Lambda to run on. | 5-1 |
 | SWIFT_EXECUTABLE | Name of the binary file. | HelloWorld |
@@ -214,6 +216,8 @@ There are many ways to achieve a lambda deployment (AWS Console, SAM, CloudForma
 
 - an AWS account for test purpose.
 - aws cli: Install the aws cli. Here the [instructions](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html).
+
+- If you want to deploy your lambdas and layers using S3 you need to make sure the bucket in the Makefile already exists. If it doesn't you can create it using the command `make create_s3_bucket` which will use the value of the variable `AWS_BUCKET` as a name.
 
 - if your AWS account it doesn't have admin priviledges:
     - Review(*) the policy contained in the file **LambdaDeployerPolicyExample.json**
@@ -311,14 +315,6 @@ make update_lambda_with_s3
 
 ```console
 make update_lambda
-```
-
-#### 6) Create bucket
-
-You may create a bucket if you wish to use the S3 options to upload lambdas and layers using the command below: 
-
-```console
-make create_s3_bucket
 ```
 
 # Contributions
