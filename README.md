@@ -325,7 +325,15 @@ Sometimes you want to go back to a clean slate and we have a command for that wh
 make nuke
 ```
 
-That command will clean your local build folders and delete S3 buckets, lambdas and layers created based off the configuration you use.
+That command will clean your local build folders then delete lambdas and layers created based off the configuration you use.
+
+### 7) Delete S3 bucket
+
+You can delete the S3 bucket where you hold your lambdas and layers with the command below:
+
+```console
+make delete_s3_bucket
+```
 
 # Update the lambda layer
 

@@ -190,6 +190,9 @@ invoke_lambda:
 create_s3_bucket:
 	aws s3 mb "s3://$(AWS_BUCKET)" --profile $(AWS_PROFILE)
 
+delete_s3_bucket:
+	aws s3 ls "s3://$(AWS_BUCKET)" 2>/dev/null >/dev/null && aws s3 rb "s3://$(AWS_BUCKET)" --force 
+
 delete_layer: 
 	aws lambda list-layer-versions --layer-name nio-swift-lambda-runtime-5-1 --output text | \
 		awk '{ print $$NF }' | \
@@ -197,7 +200,6 @@ delete_layer:
 
 nuke: clean_layer clean_lambda delete_layer
 	-aws lambda get-function --function-name $(LAMBDA_FUNCTION_NAME) 2>/dev/null >/dev/null && aws lambda delete-function --function-name $(LAMBDA_FUNCTION_NAME) 
-	-aws s3 ls "s3://$(AWS_BUCKET)" 2>/dev/null >/dev/null && aws s3 rb "s3://$(AWS_BUCKET)" --force 
 
 #quick commands - no clean
 quick_build_lambda: build_lambda create_build_directory
