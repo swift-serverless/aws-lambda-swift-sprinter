@@ -1,6 +1,6 @@
 # aws-lambda-swift-sprinter
 
-[![Swift 5](https://img.shields.io/badge/Swift-5.0-blue.svg)](https://swift.org/download/) [![Swift 5.1](https://img.shields.io/badge/Swift-5.1-blue.svg)](https://swift.org/download/)  ![](https://img.shields.io/badge/version-1.0.0--alpha.2-red) ![](https://travis-ci.com/swift-sprinter/aws-lambda-swift-sprinter.svg?branch=master)
+[![Swift 5](https://img.shields.io/badge/Swift-5.0-blue.svg)](https://swift.org/download/) [![Swift 5.1.1](https://img.shields.io/badge/Swift-5.1.1-blue.svg)](https://swift.org/download/)  ![](https://img.shields.io/badge/version-1.0.0--alpha.2-red) ![](https://travis-ci.com/swift-sprinter/aws-lambda-swift-sprinter.svg?branch=master)
 
 ![](./images/aws-lambda-swift-sprinter.png)
 
@@ -173,8 +173,8 @@ make invoke_lambda \
 | AWS_PROFILE | An AWS AIM profile you create to authenticate to your account. | default |
 | IAM_ROLE_NAME | The execution role created that will be assumed by the Lambda. | lambda_sprinter_basic_execution |
 | AWS_BUCKET | The AWS S3 bucket where the layer and lambdas zip files get uploaded. | aws-lambda-swift-sprinter |
-| SWIFT_VERSION | Version of Swift used / Matches Dockerfile location too from `docker/` folder. | 5.1 |
-| LAYER_VERSION | Version of the Swift layer that will be created and uploaded for the Lambda to run on. | 5-1 |
+| SWIFT_VERSION | Version of Swift used / Matches Dockerfile location too from `docker/` folder. | 5.1.1 |
+| LAYER_VERSION | Version of the Swift layer that will be created and uploaded for the Lambda to run on. | 5-1-1 |
 | SWIFT_EXECUTABLE | Name of the binary file. | HelloWorld |
 | SWIFT_PROJECT_PATH | Path to your Swift project. | Examples/HelloWorld |
 | LAMBDA_FUNCTION_NAME | Display name of your Lambda in AWS. | HelloWorld |
@@ -314,6 +314,29 @@ make update_lambda_with_s3
 ##### Update the Lambda directly
 
 ```console
+make update_lambda
+```
+
+# Update the lambda layer
+
+The docker image could require security updates or could require updates.
+
+To patch the lambda with a new layer:
+
+1. Rebuild the docker image
+```
+make docker_build
+```
+2. package the layer
+```
+make package_layer
+```
+3. upload the layer to AWS
+```
+make upload_lambda_layer
+```
+4. update the lambda
+```
 make update_lambda
 ```
 
