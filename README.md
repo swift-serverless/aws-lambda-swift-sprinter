@@ -317,6 +317,29 @@ make update_lambda_with_s3
 make update_lambda
 ```
 
+# Update the lambda layer
+
+The docker image could require security updates or could require updates.
+
+To patch the lambda with a new layer:
+
+1. Rebuild the docker image
+```
+make docker_build
+```
+2. package the layer
+```
+make package_layer
+```
+3. upload the layer to AWS
+```
+make upload_lambda_layer
+```
+4. update the lambda
+```
+make update_lambda
+```
+
 # Contributions
 
 Contributions are more than welcome! Follow [this guide](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/CONTRIBUTING.md) to contribute.
