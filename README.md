@@ -123,9 +123,9 @@ do {
 
 More details on how to code a Swift Lambda are documented under the Examples folder:
 
-- [HelloWorld](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/Examples/HelloWorld)
-- [HTTPSRequest](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/Examples/HTTPSRequest)
-- [S3Test](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/Examples/S3Test)
+- [HelloWorld](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/Examples/HelloWorld)
+- [HTTPSRequest](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/Examples/HTTPSRequest)
+- [S3Test](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/Examples/S3Test)
 
 Refer to the [LambdaSwiftSprinter framework documentation](https://github.com/swift-sprinter/aws-lambda-swift-sprinter-core) to know more.
 
