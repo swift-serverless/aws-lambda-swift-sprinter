@@ -358,6 +358,46 @@ make upload_lambda_layer
 make update_lambda
 ```
 
+# Manual deployment from AWS Console
+
+### Requirements:
+- Use MacOS or Linux
+- Install [Docker](https://docs.docker.com/docker-for-mac/install/)
+- Clone the repo `git clone https://github.com/swift-sprinter/aws-lambda-swift-sprinter.git`
+
+### Build:
+- From command line run `make docker_build`
+- From command line run `make package_layer`
+- From command line run `make package_lambda`
+
+### Configure:
+- Go to `AWS Lambda -> Layers` in AWS Console and create a new layer from scratch
+- Enter layer name "swift-lambda-runtime-5-1-1"
+- Upload the zip file `build/swift-lambda-runtime-5-1-1.zip`
+- Leave "Compatible runtimes" empty.
+- Click "Create"
+- Copy the `arn` from the created layer, it's required to set up the lambda.
+- Go to `AWS Lambda` in AWS Console and create a new function from scratch
+- Enter function name "benchmark-swift-hello" and select "Provide your own bootstrap" as runtime
+- Choose the execution role created above
+- Upload the zip file created with function code, it can be found under `build/lambda.zip`
+- Input "HelloWorld.helloWorld" in "Handler" (`Executable.Handler`)
+- Click "Layers"
+- Click "Add Layer"
+- Click "Provide a layer version"
+- Add the `arn` of the layer you have uploaded previously.
+- Click "Add"
+- Click "Save"
+
+### Test:
+- Test the function by clicking `Test` in the top right corner and add the following event:
+```
+{
+    "name": "Swift-Sprinter"
+}
+```
+- Give a name to the event, save and then test it.
+
 # Contributions
 
 Contributions are more than welcome! Follow [this guide](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/CONTRIBUTING.md) to contribute.
