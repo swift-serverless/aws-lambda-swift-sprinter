@@ -1,4 +1,4 @@
-FROM nio-swift:5.1.1
+FROM nio-swift:5.1.2
 
 # Or your actual UID, GID on Linux if not the default 1000
 ARG USERNAME=vscode
