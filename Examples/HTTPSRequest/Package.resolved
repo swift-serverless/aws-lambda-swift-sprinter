@@ -15,8 +15,17 @@
         "repositoryURL": "https://github.com/swift-sprinter/aws-lambda-swift-sprinter-core",
         "state": {
           "branch": null,
-          "revision": "5a8b61f9dfe3acc0d9aa38d3cf2f6d8e257575bc",
-          "version": "1.0.0-alpha.2"
+          "revision": "3afe37ba73f50cf5735c82a9b389d981cefe483d",
+          "version": "1.0.0-alpha3"
+        }
+      },
+      {
+        "package": "LambdaSwiftSprinterNioPlugin",
+        "repositoryURL": "https://github.com/Andrea-Scuderi/aws-lambda-swift-sprinter-nio-plugin",
+        "state": {
+          "branch": null,
+          "revision": "434f4dee782210c6e0961ea1bc9ded4cda4f24d8",
+          "version": "1.0.0-alpha.3"
         }
       },
       {

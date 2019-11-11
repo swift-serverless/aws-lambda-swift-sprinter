@@ -16,9 +16,11 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-import LambdaSwiftSprinter
+import LambdaSwiftSprinterNioPlugin
 import Logging
 import S3
+import NIO
+import NIOFoundationCompat
 
 struct Bucket: Codable {
     let name: String
@@ -29,30 +31,46 @@ struct Response: Codable {
     let value: String?
 }
 
-let s3 = S3(region: .euwest1)
+let s3 = S3(region: .useast1)
 
 let logger = Logger(label: "AWS.Lambda.S3Test")
 
-let getObject: AsyncCodableLambda<Bucket, Response> = { event, _, completion in
-
+let getObject: SyncCodableNIOLambda<Bucket, Response> = { (event, context) throws -> EventLoopFuture<Response> in
+    
     let getObjectRequest = S3.GetObjectRequest(bucket: event.name, key: event.key)
-    do {
-        let response = try s3.getObject(getObjectRequest).wait()
-
-        guard let body = response.body else {
-            logger.info("Body is empty")
-            completion(.success(Response(value: "")))
-            return
+    let future = s3.getObject(getObjectRequest)
+        .flatMapThrowing { (response) throws -> String in
+            guard let body = response.body,
+                let value = String(data: body, encoding: .utf8) else {
+                return ""
+            }
+            return value
+        }.map { content -> Response in
+            return Response(value: content)
         }
-        let value = String(data: body, encoding: .utf8)
-        completion(.success(Response(value: value)))
-    } catch {
-        completion(.failure(error))
-    }
+    return future
 }
 
+//let getObject: AsyncCodableNIOLambda<Bucket, Response> = { event, _, completion in
+//
+//    let getObjectRequest = S3.GetObjectRequest(bucket: event.name, key: event.key)
+//    do {
+//        let response = try s3.getObject(getObjectRequest).wait()
+//
+//        guard let body = response.body else {
+//            logger.info("Body is empty")
+//            completion(.success(Response(value: "")))
+//            return
+//        }
+//        let value = String(data: body, encoding: .utf8)
+//        completion(.success(Response(value: value)))
+//    } catch {
+//        completion(.failure(error))
+//    }
+//}
+
 do {
-    let sprinter = try SprinterCURL()
+    let sprinter = try SprinterNIO()
     sprinter.register(handler: "getObject", lambda: getObject)
     try sprinter.run()
 } catch {

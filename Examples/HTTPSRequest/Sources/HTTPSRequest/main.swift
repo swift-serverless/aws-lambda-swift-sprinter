@@ -32,6 +32,10 @@ struct Response: Codable {
     let content: String
 }
 
+enum MyError: Error {
+    case invalidParameters
+}
+
 let logger = Logger(label: "AWS.Lambda.HTTPSRequest")
 
 /**
@@ -58,10 +62,6 @@ let syncCodableNIOLambda: SyncCodableNIOLambda<Event, Response> = { (event, cont
             return Response(url: event.url, content: content)
         }
     return future
-}
-
-enum MyError: Error {
-    case invalidParameters
 }
 
 /**
