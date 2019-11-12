@@ -10,9 +10,14 @@ Define an Event and a Response as Codable.
 ```swift
 import AsyncHTTPClient
 import Foundation
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
 import LambdaSwiftSprinter
 import LambdaSwiftSprinterNioPlugin
 import Logging
+import NIO
+import NIOFoundationCompat
 
 struct Event: Codable {
     let url: String
@@ -24,15 +29,6 @@ struct Response: Codable {
 }
 ```
 
-Use this code to allow the conversion of a `ByteBuffer` to `Data`
-```swift
-extension Array where Element == UInt8 {
-    var data: Data {
-        return Data(self)
-    }
-}
-```
-
 Add a loger:
 ```swift
 let logger = Logger(label: "AWS.Lambda.HTTPSRequest")
@@ -40,19 +36,20 @@ let logger = Logger(label: "AWS.Lambda.HTTPSRequest")
 
 Define the lambda:
 ```swift
-let lambda: SyncCodableLambda<Event, Response> = { (input, context) throws -> Response in
-
-    let request = try HTTPClient.Request(url: input.url)
-    let response = try httpClient.execute(request: request).wait()
-
-    guard let body = response.body,
-        let buffer = body.getBytes(at: 0, length: body.readableBytes) else {
-        throw SprinterError.invalidJSON
-    }
-    let data = Data(buffer)
-    let content = String(data: data, encoding: .utf8) ?? ""
-
-    return Response(url: input.url, content: content)
+let syncCodableNIOLambda: SyncCodableNIOLambda<Event, Response> = { (event, context) throws -> EventLoopFuture<Response> in
+    
+    let request = try HTTPClient.Request(url: event.url)
+    let future = httpClient.execute(request: request, deadline: nil)
+        .flatMapThrowing { (response) throws -> String in
+                guard let body = response.body,
+                    let value = body.getString(at: 0, length: body.readableBytes) else {
+                        throw SprinterError.invalidJSON
+            }
+            return value
+        }.map { content -> Response in
+            return Response(url: event.url, content: content)
+        }
+    return future
 }
 ```
 
@@ -64,10 +61,11 @@ Then use this boilerplate code to run the lambda:
 ```swift
 do {
     let sprinter = try SprinterNIO()
-    sprinter.register(handler: "getHttps", lambda: lambda)
+    sprinter.register(handler: "getHttps", lambda: syncCodableNIOLambda)
+    
     try sprinter.run()
 } catch {
-    logger.error(String(describing: error))
+    logger.error("\(String(describing: error))")
 }
 ```
 

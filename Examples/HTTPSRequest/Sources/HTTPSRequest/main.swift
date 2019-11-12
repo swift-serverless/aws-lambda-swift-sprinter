@@ -170,7 +170,7 @@ let asyncCodableNIOLambda: AsyncCodableNIOLambda<Event, Response> = { (event, co
 }
 
 /**
- Deprecated style of implementing the lambda using the NIO plugin.
+ Deprecated style of implementing the lambda using the core framework.
  
  - The example has been left to keep the compatibility with the tutorial:
  
@@ -201,6 +201,8 @@ let lambda: SyncCodableLambda<Event, Response> = { (input, context) throws -> Re
     return Response(url: input.url, content: content)
 }
 
+
+/// The following code it's required to setup, register, run the lambda and log errors.
 do {
     let sprinter = try SprinterNIO()
     //Note amend this line in case if it's required to use a different lambda handler.
