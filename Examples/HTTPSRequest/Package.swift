@@ -8,7 +8,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         //.package(path: "../../../aws-lambda-swift-sprinter-nio-plugin"),
-        .package(url: "https://github.com/swift-sprinter/aws-lambda-swift-sprinter-nio-plugin", from: "1.0.0-alpha.2"),
+        .package(url: "https://github.com/swift-sprinter/aws-lambda-swift-sprinter-nio-plugin", from: "1.0.0-alpha.3"),
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
     ],
     targets: [

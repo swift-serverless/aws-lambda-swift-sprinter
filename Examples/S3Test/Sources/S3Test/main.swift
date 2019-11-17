@@ -16,9 +16,11 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-import LambdaSwiftSprinter
+import LambdaSwiftSprinterNioPlugin
 import Logging
 import S3
+import NIO
+import NIOFoundationCompat
 
 struct Bucket: Codable {
     let name: String
@@ -29,11 +31,50 @@ struct Response: Codable {
     let value: String?
 }
 
-let s3 = S3(region: .euwest1)
+let s3 = S3(region: .useast1)
 
 let logger = Logger(label: "AWS.Lambda.S3Test")
 
-let getObject: AsyncCodableLambda<Bucket, Response> = { event, _, completion in
+/**
+ How to use the `SyncCodableNIOLambda<Bucket, Response>` lambda handler with S3.
+
+ - The code is used by this example.
+ - Make sure the handler is registered:
+ 
+ ```
+ sprinter.register(handler: "getObject", lambda: getObject)
+ ```
+*/
+let getObject: SyncCodableNIOLambda<Bucket, Response> = { (event, context) throws -> EventLoopFuture<Response> in
+    
+    let getObjectRequest = S3.GetObjectRequest(bucket: event.name, key: event.key)
+    let future = s3.getObject(getObjectRequest)
+        .flatMapThrowing { (response) throws -> String in
+            guard let body = response.body,
+                let value = String(data: body, encoding: .utf8) else {
+                return ""
+            }
+            return value
+        }.map { content -> Response in
+            return Response(value: content)
+        }
+    return future
+}
+
+/**
+ How to use the `AsyncCodableNIOLambda<Bucket, Response>` lambda handler with S3.
+
+ - The code is unused.
+ - Make sure the handler is registered.
+ - If it's required by the lambda implementation, amend the following lines:
+ 
+ ```
+ //sprinter.register(handler: "getObject", lambda: getObject)
+ sprinter.register(handler: "getObjectAsync", lambda: getObjectAsync)
+ 
+ ```
+*/
+let getObjectAsync: AsyncCodableNIOLambda<Bucket, Response> = { event, _, completion in
 
     let getObjectRequest = S3.GetObjectRequest(bucket: event.name, key: event.key)
     do {
@@ -51,8 +92,9 @@ let getObject: AsyncCodableLambda<Bucket, Response> = { event, _, completion in
     }
 }
 
+/// The following code it's required to setup, register, run the lambda and log errors.
 do {
-    let sprinter = try SprinterCURL()
+    let sprinter = try SprinterNIO()
     sprinter.register(handler: "getObject", lambda: getObject)
     try sprinter.run()
 } catch {
