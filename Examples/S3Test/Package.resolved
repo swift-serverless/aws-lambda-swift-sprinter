@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/swift-aws/aws-sdk-swift.git",
         "state": {
           "branch": null,
-          "revision": "6fe8f2c510d0bf142176ff690bfa08d159e1c628",
-          "version": "4.0.0-rc2"
+          "revision": "22c57f8ec403a28d89dccf5450b928998f82fdc6",
+          "version": "4.0.0"
         }
       },
       {
@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/swift-aws/aws-sdk-swift-core.git",
         "state": {
           "branch": null,
-          "revision": "a538c99d210de5f8713e42c2754119b45c79db6b",
-          "version": "4.0.0-rc2"
+          "revision": "29d059a323c079c731bca969909321142034a036",
+          "version": "4.0.0"
         }
       },
       {
@@ -98,6 +98,15 @@
           "branch": null,
           "revision": "ccf96bbe65ecc7c1558ab0dba7ffabdea5c1d31f",
           "version": "2.4.4"
+        }
+      },
+      {
+        "package": "swift-nio-ssl-support",
+        "repositoryURL": "https://github.com/apple/swift-nio-ssl-support.git",
+        "state": {
+          "branch": null,
+          "revision": "c02eec4e0e6d351cd092938cf44195a8e669f555",
+          "version": "1.0.0"
         }
       },
       {
