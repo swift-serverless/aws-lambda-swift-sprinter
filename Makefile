@@ -36,6 +36,12 @@ LAMBDA_HANDLER?=$(SWIFT_EXECUTABLE).helloWorld
 # LAMBDA_FUNCTION_NAME?=RedisDemo
 # LAMBDA_HANDLER?=$(SWIFT_EXECUTABLE).setGet
 
+# PostgreSQLDemo Example Configuration
+# SWIFT_EXECUTABLE=PostgreSQLDemo
+# SWIFT_PROJECT_PATH=Examples/PostgreSQLDemo
+# LAMBDA_FUNCTION_NAME=PostgreSQLDemo
+# LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).query
+
 # AWS Configuration
 IAM_ROLE_NAME?=lambda_sprinter_basic_execution
 AWS_PROFILE?=default
