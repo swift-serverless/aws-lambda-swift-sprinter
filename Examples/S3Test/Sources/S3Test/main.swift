@@ -21,6 +21,7 @@ import Logging
 import S3
 import NIO
 import NIOFoundationCompat
+import AWSSDKSwiftCore
 
 struct Bucket: Codable {
     let name: String
@@ -31,9 +32,24 @@ struct Response: Codable {
     let value: String?
 }
 
-let s3 = S3(region: .useast1)
-
 let logger = Logger(label: "AWS.Lambda.S3Test")
+
+var s3: S3!
+
+if ProcessInfo.processInfo.environment["LAMB_CI_EXEC"] == "1" {
+    //Used for local test
+    s3 = S3(region: .useast1, endpoint: "http://localstack:4572")
+    logger.info("Endpoint-URI: http://localstack:4572")
+} else if let awsRegion = ProcessInfo.processInfo.environment["AWS_REGION"],
+    //The S3 Bucket must be in the same region of the Lambda
+    let region = Region(rawValue: awsRegion) {
+    s3 = S3(region: region)
+    logger.info("AWS_REGION: \(region)")
+} else {
+    //Default configuration
+    s3 = S3(region: .useast1)
+    logger.info("AWS_REGION: us-east-1")
+}
 
 /**
  How to use the `SyncCodableNIOLambda<Bucket, Response>` lambda handler with S3.
