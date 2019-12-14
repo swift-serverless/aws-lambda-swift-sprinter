@@ -210,7 +210,7 @@ quick_build_lambda: build_lambda create_build_directory
 quick_deploy_lambda: quick_build_lambda create_build_directory
 	aws lambda update-function-code --function-name $(LAMBDA_FUNCTION_NAME) --zip-file fileb://$(LAMBDA_BUILD_PATH)/$(LAMBDA_ZIP) --profile $(AWS_PROFILE)
 
-build_lambda_local: package_layer build_lambda
+build_lambda_local: build_lambda
 	if [ ! -d "$(LOCAL_LAMBDA_PATH)" ]; then mkdir -p $(LOCAL_LAMBDA_PATH); fi
 	cp $(SWIFT_PROJECT_PATH)/.build/$(SWIFT_CONFIGURATION)/$(SWIFT_EXECUTABLE) $(LOCAL_LAMBDA_PATH)/.
 
