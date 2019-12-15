@@ -10,6 +10,9 @@ services:
 env:
   global:
     - AWS_REGION=us-east-1
+    - AWS_ACCESS_KEY_ID=AKFAKEACCESSKEYID
+    - AWS_DEFAULT_REGION=us-east-1
+    - AWS_SECRET_ACCESS_KEY=AKFAKESECRETACCESSKEY
 
 addons:
     snaps:
