@@ -7,6 +7,10 @@ dist: xenial
 services:
   - docker
 
+env:
+  global:
+    - AWS_REGION=us-east-1
+
 addons:
     snaps:
       - name: aws-cli
