@@ -23,6 +23,7 @@ addons:
 install:
   - make --version
   - make docker_build
+  - aws configure
 
 script:
   - docker image ls
