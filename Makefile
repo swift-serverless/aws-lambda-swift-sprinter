@@ -217,18 +217,18 @@ build_lambda_local: build_lambda
 invoke_lambda_local_once:
 	$(eval LOCAL_LAMBDA_EVENT := '$(shell cat $(SWIFT_PROJECT_PATH)/event.json)')
 	docker run --rm \
-	-v "$(PWD)/.build/local":/var/task:ro,delegated \
+	-v "$(PWD)/$(LOCAL_LAMBDA_PATH)":/var/task:ro,delegated \
 	-v "$(PWD)/bootstrap":/opt/bootstrap:ro,delegated \
-	-v "$(PWD)/swift-shared-libs":/opt/swift-shared-libs:ro,delegated \
+	-v "$(PWD)/$(SHARED_LIBS_FOLDER)":/opt/swift-shared-libs:ro,delegated \
 	lambci/lambda:provided $(LAMBDA_HANDLER) $(LOCAL_LAMBDA_EVENT)
 
 start_lambda_local_env:
 	docker run --rm \
 	-e DOCKER_LAMBDA_STAY_OPEN=1 \
 	-p 9001:9001 \
-	-v "$(PWD)/.build/local":/var/task:ro,delegated \
+	-v "$(PWD)/$(LOCAL_LAMBDA_PATH)":/var/task:ro,delegated \
 	-v "$(PWD)/bootstrap":/opt/bootstrap:ro,delegated \
-	-v "$(PWD)/swift-shared-libs":/opt/swift-shared-libs:ro,delegated \
+	-v "$(PWD)/$(SHARED_LIBS_FOLDER)":/opt/swift-shared-libs:ro,delegated \
   	lambci/lambda:provided \
 	$(LAMBDA_HANDLER)
 
