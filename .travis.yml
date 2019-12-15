@@ -13,6 +13,7 @@ env:
     - AWS_ACCESS_KEY_ID=AKFAKEACCESSKEYID
     - AWS_DEFAULT_REGION=us-east-1
     - AWS_SECRET_ACCESS_KEY=AKFAKESECRETACCESSKEY
+    - AWS_PROFILE=default
 
 addons:
     snaps:
@@ -20,10 +21,12 @@ addons:
         confinement: classic # or devmode
         channel: latest/edge
 
+before_install:
+  - ./scripts/aws_travis_credentials.sh
+
 install:
   - make --version
   - make docker_build
-  - aws configure
 
 script:
   - docker image ls
