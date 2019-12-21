@@ -358,6 +358,91 @@ make upload_lambda_layer
 make update_lambda
 ```
 
+# Local development
+
+Development and test can be simplified by using a sandboxed local environment replicating of the AWS Lambda by using the [lambci/lambda:provided](https://github.com/lambci/docker-lambda) Docker image.
+
+The local sandboxed Lambda can be launched just to test the Lambda once or more than once.
+
+To run the sandboxed Lambda environment it's required to share the files contained in the layer, the boostrap and the files required by the build with the ```lambci/lambda:provided``` Docker image.
+
+```
+docker run --rm \
+-v "$(PWD)/$(LOCAL_LAMBDA_PATH)":/var/task:ro,delegated \
+-v "$(PWD)/bootstrap":/opt/bootstrap:ro,delegated \
+-v "$(PWD)/$(SHARED_LIBS_FOLDER)":/opt/swift-shared-libs:ro,delegated \
+lambci/lambda:provided $(LAMBDA_HANDLER) $(LOCAL_LAMBDA_EVENT)
+```
+
+- ```$LOCAL_LAMBDA_PATH```: the path containing the build
+- ```$SHARED_LIBS_FOLDER```: the path containing the extracted swift runtime libraries
+- ```$LAMBDA_HANDLER```: the lambda handler
+- ```$LOCAL_LAMBDA_EVENT```: the event json string
+
+
+To run the Lambda locally follow the [Lambda development workflow](https://github.com/swift-sprinter/aws-lambda-swift-sprinter#lambda-development-workflow) to the step 4:
+
+1) Requirements: Clone the repository and install Docker
+2) Prepare a custom docker image: ```make docker_build```
+3) Build the lambda layer: ```make package_layer```
+4) Write the lambda code
+
+To simplify the local execution swift-sprinter added some useful commands:
+
+## Lambda Local
+
+### Build lambda locally
+
+Build the lambda and copy the artefacts under ```$LOCAL_LAMBDA_PATH```
+
+```make build_lambda_local```
+
+### Invoke lambda local once
+
+Invoke the Lambda locally once with Docker and LambCI on port ```9001```
+
+```make invoke_lambda_local_once```
+
+### Start lamba local environment
+
+Start the local environment with Docker and LambCI on port ```9001```
+
+```make start_lambda_local_env```
+
+Keep it running and open a new terminal window to invoke the lambda.
+
+Use ```ctrl^C``` to stop it.
+
+### Invoke the lambda locally
+
+Invoke the lambda locally using the endpoint ```http://localhost:9001``` with the aws cli.
+
+```make invoke_lambda_local```
+
+## Use of Docker Compose
+
+To test lambda locally with more complex environment it's possible to use Docker Compose.
+
+All the examples in the repository have their own ```docker-compose.yml``` file to run the example locally listening on the port ```9001```.
+
+### Start the Docker Compose 
+
+Start the docker-compose test environment
+
+```make start_docker_compose_env```
+
+### Invoke the lambda locally
+
+Invoke the lambda locally using the endpoint ```http://localhost:9001``` with the aws cli.
+
+```make invoke_lambda_local```
+
+### Stop the Docker Compose
+
+Stop the docker-compose test environment
+
+```make stop_docker_compose_env```
+
 # Manual deployment from AWS Console
 
 ### Requirements:
