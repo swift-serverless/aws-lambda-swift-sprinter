@@ -1,6 +1,6 @@
 # aws-lambda-swift-sprinter
 
-[![Swift 5](https://img.shields.io/badge/Swift-5.0-blue.svg)](https://swift.org/download/) [![Swift 5.1.2](https://img.shields.io/badge/Swift-5.1.2-blue.svg)](https://swift.org/download/)  ![](https://img.shields.io/badge/version-1.0.0--alpha.3-red) ![](https://travis-ci.com/swift-sprinter/aws-lambda-swift-sprinter.svg?branch=master)
+[![Swift 5](https://img.shields.io/badge/Swift-5.0-blue.svg)](https://swift.org/download/) [![Swift 5.1.3](https://img.shields.io/badge/Swift-5.1.3-blue.svg)](https://swift.org/download/)  ![](https://img.shields.io/badge/version-1.0.0--alpha.3-red) ![](https://travis-ci.com/swift-sprinter/aws-lambda-swift-sprinter.svg?branch=master)
 
 ![](./images/aws-lambda-swift-sprinter.png)
 
@@ -173,8 +173,8 @@ make invoke_lambda \
 | AWS_PROFILE | An AWS AIM profile you create to authenticate to your account. | default |
 | IAM_ROLE_NAME | The execution role created that will be assumed by the Lambda. | lambda_sprinter_basic_execution |
 | AWS_BUCKET | The AWS S3 bucket where the layer and lambdas zip files get uploaded. | aws-lambda-swift-sprinter |
-| SWIFT_VERSION | Version of Swift used / Matches Dockerfile location too from `docker/` folder. | 5.1.2 |
-| LAYER_VERSION | Version of the Swift layer that will be created and uploaded for the Lambda to run on. | 5-1-2 |
+| SWIFT_VERSION | Version of Swift used / Matches Dockerfile location too from `docker/` folder. | 5.1.3 |
+| LAYER_VERSION | Version of the Swift layer that will be created and uploaded for the Lambda to run on. | 5-1-3 |
 | SWIFT_EXECUTABLE | Name of the binary file. | HelloWorld |
 | SWIFT_PROJECT_PATH | Path to your Swift project. | Examples/HelloWorld |
 | LAMBDA_FUNCTION_NAME | Display name of your Lambda in AWS. | HelloWorld |
@@ -457,8 +457,8 @@ Stop the docker-compose test environment
 
 ### Configure:
 - Go to `AWS Lambda -> Layers` in AWS Console and create a new layer from scratch
-- Enter layer name "swift-lambda-runtime-5-1-2"
-- Upload the zip file `build/swift-lambda-runtime-5-1-2.zip`
+- Enter layer name "swift-lambda-runtime-5-1-3"
+- Upload the zip file `build/swift-lambda-runtime-5-1-3.zip`
 - Leave "Compatible runtimes" empty.
 - Click "Create"
 - Copy the `arn` from the created layer, it's required to set up the lambda.
