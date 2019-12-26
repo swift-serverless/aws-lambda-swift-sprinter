@@ -28,7 +28,6 @@ struct Event: Codable {
 }
 
 struct Response: Codable {
-    let url: String
     let content: String
 }
 
@@ -59,7 +58,7 @@ let syncCodableNIOLambda: SyncCodableNIOLambda<Event, Response> = { (event, cont
             }
             return value
         }.map { content -> Response in
-            return Response(url: event.url, content: content)
+            return Response(content: content)
         }
     return future
 }
@@ -92,8 +91,7 @@ let syncDictionaryNIOLambda: SyncDictionaryNIOLambda = { (event, context) throws
             }
             return value
         }.map { content -> [String: Any] in
-            return ["url": url,
-                    "content": content]
+            return ["content": content]
         }
     return future
 }
@@ -126,8 +124,7 @@ let asynchDictionayNIOLambda: AsyncDictionaryNIOLambda = { (event, context, comp
                 }
                 return value
         }.map { content -> [String: Any] in
-            return ["url": url,
-                    "content": content]
+            return ["content": content]
         }
         .wait()
         completion(.success(dictionary))
@@ -160,7 +157,7 @@ let asyncCodableNIOLambda: AsyncCodableNIOLambda<Event, Response> = { (event, co
                 }
                 return value
         }.map { content -> Response in
-            return Response(url: event.url, content: content)
+            return Response(content: content)
         }
         .wait()
         completion(.success(reponse))
@@ -198,7 +195,7 @@ let lambda: SyncCodableLambda<Event, Response> = { (input, context) throws -> Re
     }
     let content = String(data: data, encoding: .utf8) ?? ""
     
-    return Response(url: input.url, content: content)
+    return Response(content: content)
 }
 
 

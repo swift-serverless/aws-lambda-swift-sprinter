@@ -42,6 +42,8 @@ LAYER_ZIP=swift-lambda-runtime-$(LAYER_VERSION).zip
 ROOT_BUILD_PATH=./.build
 LAYER_BUILD_PATH=$(ROOT_BUILD_PATH)/layer
 LAMBDA_BUILD_PATH=$(ROOT_BUILD_PATH)/lambda
+LOCAL_LAMBDA_PATH=$(ROOT_BUILD_PATH)/local
+LOCALSTACK_TMP=$(ROOT_BUILD_PATH)/.tmp
 TMP_BUILD_PATH=$(ROOT_BUILD_PATH)/tmp
 DATETIME=$(shell date +'%y%m%d-%H%M%S')
 
@@ -207,3 +209,38 @@ quick_build_lambda: build_lambda create_build_directory
 
 quick_deploy_lambda: quick_build_lambda create_build_directory
 	aws lambda update-function-code --function-name $(LAMBDA_FUNCTION_NAME) --zip-file fileb://$(LAMBDA_BUILD_PATH)/$(LAMBDA_ZIP) --profile $(AWS_PROFILE)
+
+build_lambda_local: build_lambda
+	if [ ! -d "$(LOCAL_LAMBDA_PATH)" ]; then mkdir -p $(LOCAL_LAMBDA_PATH); fi
+	cp $(SWIFT_PROJECT_PATH)/.build/$(SWIFT_CONFIGURATION)/$(SWIFT_EXECUTABLE) $(LOCAL_LAMBDA_PATH)/.
+
+invoke_lambda_local_once:
+	$(eval LOCAL_LAMBDA_EVENT := '$(shell cat $(SWIFT_PROJECT_PATH)/event.json)')
+	docker run --rm \
+	-v "$(PWD)/$(LOCAL_LAMBDA_PATH)":/var/task:ro,delegated \
+	-v "$(PWD)/bootstrap":/opt/bootstrap:ro,delegated \
+	-v "$(PWD)/$(SHARED_LIBS_FOLDER)":/opt/swift-shared-libs:ro,delegated \
+	lambci/lambda:provided $(LAMBDA_HANDLER) $(LOCAL_LAMBDA_EVENT)
+
+start_lambda_local_env:
+	docker run --rm \
+	-e DOCKER_LAMBDA_STAY_OPEN=1 \
+	-p 9001:9001 \
+	-v "$(PWD)/$(LOCAL_LAMBDA_PATH)":/var/task:ro,delegated \
+	-v "$(PWD)/bootstrap":/opt/bootstrap:ro,delegated \
+	-v "$(PWD)/$(SHARED_LIBS_FOLDER)":/opt/swift-shared-libs:ro,delegated \
+  	lambci/lambda:provided \
+	$(LAMBDA_HANDLER)
+
+invoke_lambda_local:
+	aws lambda invoke --endpoint http://localhost:9001 --no-sign-request --function-name $(LAMBDA_FUNCTION_NAME) --payload "fileb://$(SWIFT_PROJECT_PATH)/event.json" $(TMP_BUILD_PATH)/outfile && echo "\nResult:" && cat $(TMP_BUILD_PATH)/outfile && echo "\n"
+
+start_docker_compose_env:
+	if [ ! -d "$(LOCALSTACK_TMP)" ]; then mkdir -p $(LOCALSTACK_TMP); fi
+	make -f $(SWIFT_PROJECT_PATH)/Makefile start_docker_compose_env
+
+stop_docker_compose_env:
+	make -f $(SWIFT_PROJECT_PATH)/Makefile stop_docker_compose_env
+
+test_lambda_local_output:
+	cmp $(TMP_BUILD_PATH)/outfile $(SWIFT_PROJECT_PATH)/outfile.json

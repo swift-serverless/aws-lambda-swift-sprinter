@@ -7,11 +7,22 @@ dist: xenial
 services:
   - docker
 
+env:
+  global:
+    - AWS_REGION=us-east-1
+    - AWS_ACCESS_KEY_ID=AKFAKEACCESSKEYID
+    - AWS_DEFAULT_REGION=us-east-1
+    - AWS_SECRET_ACCESS_KEY=AKFAKESECRETACCESSKEY
+    - AWS_PROFILE=default
+
 addons:
     snaps:
       - name: aws-cli
         confinement: classic # or devmode
         channel: latest/edge
+
+before_install:
+  - ./scripts/aws_travis_credentials.sh
 
 install:
   - make --version
@@ -24,3 +35,18 @@ script:
   - make swift_test
   - make swift_test SWIFT_EXECUTABLE=HTTPSRequest SWIFT_PROJECT_PATH=Examples/HTTPSRequest LAMBDA_FUNCTION_NAME=HTTPSRequest LAMBDA_HANDLER=HTTPSRequest.getHttps
   - make swift_test SWIFT_EXECUTABLE=S3Test SWIFT_PROJECT_PATH=Examples/S3Test LAMBDA_FUNCTION_NAME=S3Test LAMBDA_HANDLER=S3Test.getObject
+  - make build_lambda_local
+  - make start_docker_compose_env
+  - make invoke_lambda_local
+  - make stop_docker_compose_env
+  - make test_lambda_local_output
+  - make build_lambda_local SWIFT_EXECUTABLE=HTTPSRequest SWIFT_PROJECT_PATH=Examples/HTTPSRequest LAMBDA_FUNCTION_NAME=HTTPSRequest LAMBDA_HANDLER=HTTPSRequest.getHttps
+  - make start_docker_compose_env SWIFT_EXECUTABLE=HTTPSRequest SWIFT_PROJECT_PATH=Examples/HTTPSRequest LAMBDA_FUNCTION_NAME=HTTPSRequest LAMBDA_HANDLER=HTTPSRequest.getHttps
+  - make invoke_lambda_local SWIFT_EXECUTABLE=HTTPSRequest SWIFT_PROJECT_PATH=Examples/HTTPSRequest LAMBDA_FUNCTION_NAME=HTTPSRequest LAMBDA_HANDLER=HTTPSRequest.getHttps
+  - make stop_docker_compose_env SWIFT_EXECUTABLE=HTTPSRequest SWIFT_PROJECT_PATH=Examples/HTTPSRequest LAMBDA_FUNCTION_NAME=HTTPSRequest LAMBDA_HANDLER=HTTPSRequest.getHttps
+  - make test_lambda_local_output SWIFT_EXECUTABLE=HTTPSRequest SWIFT_PROJECT_PATH=Examples/HTTPSRequest LAMBDA_FUNCTION_NAME=HTTPSRequest LAMBDA_HANDLER=HTTPSRequest.getHttps
+  - make build_lambda_local SWIFT_EXECUTABLE=S3Test SWIFT_PROJECT_PATH=Examples/S3Test LAMBDA_FUNCTION_NAME=S3Test LAMBDA_HANDLER=S3Test.getObject
+  - make start_docker_compose_env SWIFT_EXECUTABLE=S3Test SWIFT_PROJECT_PATH=Examples/S3Test LAMBDA_FUNCTION_NAME=S3Test LAMBDA_HANDLER=S3Test.getObject
+  - make invoke_lambda_local SWIFT_EXECUTABLE=S3Test SWIFT_PROJECT_PATH=Examples/S3Test LAMBDA_FUNCTION_NAME=S3Test LAMBDA_HANDLER=S3Test.getObject
+  - make stop_docker_compose_env SWIFT_EXECUTABLE=S3Test SWIFT_PROJECT_PATH=Examples/S3Test LAMBDA_FUNCTION_NAME=S3Test LAMBDA_HANDLER=S3Test.getObject
+  - make test_lambda_local_output SWIFT_EXECUTABLE=S3Test SWIFT_PROJECT_PATH=Examples/S3Test LAMBDA_FUNCTION_NAME=S3Test LAMBDA_HANDLER=S3Test.getObject
