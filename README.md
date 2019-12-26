@@ -14,7 +14,7 @@ The project contains also some Examples:
 
 - [HelloWorld](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/Examples/HelloWorld): A basic Lambda Swift example
 - [HTTPSRequest](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/Examples/HTTPSRequest): A basic example showing how to perform an HTTPS request from the Swift Lambda using the [LambdaSwiftSprinterNioPlugin](https://github.com/swift-sprinter/aws-lambda-swift-sprinter-nio-plugin)
-- [S3Test](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/Examples/S3Test): A basic examle showing how to access an S3 bucket from the Swift Lambda using [https://github.com/swift-aws/aws-sdk-swift](https://github.com/swift-aws/aws-sdk-swift).
+- [S3Test](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/Examples/S3Test): A basic example showing how to access an S3 bucket from the Swift Lambda using [https://github.com/swift-aws/aws-sdk-swift](https://github.com/swift-aws/aws-sdk-swift).
 
 # Introduction
 
@@ -23,9 +23,9 @@ The AWS Lambdas run on [Amazon Linux](https://docs.aws.amazon.com/lambda/latest/
 The work-around to build swift on Amazon Linux is achieved by:
  - building the code on the [official Docker Swift](https://hub.docker.com/_/swift/)
  - extracting the build and all the runtime's shared libraries
- - packaging the artifacts and use them as [AWS Lambda Custom Runtime](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-custom.html)
+ - packaging the artefacts and use them as [AWS Lambda Custom Runtime](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-custom.html)
 
-The artifacts required to run the Swift Lambda are splitted in two parts:
+The artefacts required to run the Swift Lambda are split in two parts:
 - [Lambda Layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html): A layer is a ZIP archive that contains libraries, a custom runtime, all the shared libraries required to run the Swift lambda.
 - Lambda code depends on the [LambdaSwiftSprinter](https://github.com/swift-sprinter/aws-lambda-swift-sprinter-core) framework: A zip package containing the Swift Lambda main executable and third-party libraries.
 
@@ -131,7 +131,7 @@ Refer to the [LambdaSwiftSprinter framework documentation](https://github.com/sw
 
 #### 5) Build the lambda
 
-By default the `Makefile` will build the `HelloWorld` example contained in this repository.
+By default, the `Makefile` will build the `HelloWorld` example contained in this repository.
 
 The following command will build and zip the Lambda:
 
@@ -144,7 +144,7 @@ The output of this command is a ZIP file called `lambda.zip` under the folder `.
 
 ## Parametrized calls / Automation
 
-Can pass values to your `make` command either before or after the call like below. This will fit better in a script per example to setup continuous integration in your project.
+Can pass values to your `make` command either before or after the call like below. This will fit better in a script per example to set up continuous integration in your project.
 
 ### Before `make`
 
@@ -182,7 +182,7 @@ make invoke_lambda \
 
 ## Manual change
 
-You can also edit the `Makefile` to build a different Example by commenting the following lines and uncommenting the line relateted to the example you want to build.
+You can also edit the `Makefile` to build a different Example by commenting the following lines and uncommenting the line related to the example you want to build.
 ```
 ...
 
@@ -196,7 +196,7 @@ LAMBDA_HANDLER?=$(SWIFT_EXECUTABLE).helloWorld
 
 # Lambda Deployment Workflow
 
-The folowing tutorial describes how to deploy the lambda in your AWS account from the command line using [AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html) through the `Makefile`.
+The following tutorial describes how to deploy the lambda in your AWS account from the command line using [AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html) through the `Makefile`.
 
 The goal of the deployment is to create and configure a lambda with `lambda.zip` and the layer with `swift-lambda-runtime.zip`.
 
@@ -377,7 +377,7 @@ lambci/lambda:provided $(LAMBDA_HANDLER) $(LOCAL_LAMBDA_EVENT)
 - ```$LOCAL_LAMBDA_PATH```: the path containing the build
 - ```$SHARED_LIBS_FOLDER```: the path containing the extracted swift runtime libraries
 - ```$LAMBDA_HANDLER```: the lambda handler
-- ```$LOCAL_LAMBDA_EVENT```: the event json string
+- ```$LOCAL_LAMBDA_EVENT```: the event JSON string
 
 
 To run the Lambda locally follow the [Lambda development workflow](https://github.com/swift-sprinter/aws-lambda-swift-sprinter#lambda-development-workflow) to the step 4:
@@ -403,7 +403,7 @@ Invoke the Lambda locally once with Docker and LambCI on port ```9001```
 
 ```make invoke_lambda_local_once```
 
-### Start lamba local environment
+### Start lambda local environment
 
 Start the local environment with Docker and LambCI on port ```9001```
 
@@ -421,9 +421,9 @@ Invoke the lambda locally using the endpoint ```http://localhost:9001``` with th
 
 ## Use of Docker Compose
 
-To test lambda locally with more complex environment it's possible to use Docker Compose.
+To test lambda locally with a more complex environment it's possible to use Docker Compose.
 
-All the examples in the repository have their own ```docker-compose.yml``` file to run the example locally listening on the port ```9001```.
+All the examples in the repository have  ```docker-compose.yml``` file to run the example locally listening on the port ```9001```.
 
 ### Start the Docker Compose 
 
@@ -451,9 +451,9 @@ Stop the docker-compose test environment
 - Clone the repo `git clone https://github.com/swift-sprinter/aws-lambda-swift-sprinter.git`
 
 ### Build:
-- From command line run `make docker_build`
-- From command line run `make package_layer`
-- From command line run `make package_lambda`
+- From the command line run `make docker_build`
+- From the command line run `make package_layer`
+- From the command line run `make package_lambda`
 
 ### Configure:
 - Go to `AWS Lambda -> Layers` in AWS Console and create a new layer from scratch
