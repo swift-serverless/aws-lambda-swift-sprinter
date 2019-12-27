@@ -15,6 +15,7 @@ The project contains also some Examples:
 - [HelloWorld](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/Examples/HelloWorld): A basic Lambda Swift example
 - [HTTPSRequest](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/Examples/HTTPSRequest): A basic example showing how to perform an HTTPS request from the Swift Lambda using the [LambdaSwiftSprinterNioPlugin](https://github.com/swift-sprinter/aws-lambda-swift-sprinter-nio-plugin)
 - [S3Test](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/Examples/S3Test): A basic example showing how to access an S3 bucket from the Swift Lambda using [https://github.com/swift-aws/aws-sdk-swift](https://github.com/swift-aws/aws-sdk-swift).
+- [RedisDemo](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/Examples/RedisDemo): A basic example showing how to connect to Redis from the Swift Lambda using the [RediStack](https://gitlab.com/mordil/swift-redi-stack.git) client.
 
 # Introduction
 

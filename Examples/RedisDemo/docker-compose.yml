@@ -1,0 +1,18 @@
+version: '3'
+services:
+  lambci:
+    image: "lambci/lambda:provided"
+    volumes:
+        - ../../.build/local:/var/task:ro,delegated
+        - ../../bootstrap:/opt/bootstrap:ro,delegated
+        - ../../swift-shared-libs:/opt/swift-shared-libs:ro,delegated
+    environment:
+      - DOCKER_LAMBDA_STAY_OPEN=1
+      - AWS_LAMBDA_FUNCTION_TIMEOUT=3
+      - LAMB_CI_EXEC=1
+    command:
+      - RedisDemo.setGet
+    ports:
+     - "9001:9001"
+  redis:
+    image: "redis:alpine"

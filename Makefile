@@ -13,10 +13,10 @@ SWIFT_CONFIGURATION=release
 # Configuration
 
 # HelloWorld Example Configuration
-# SWIFT_EXECUTABLE?=HelloWorld
-# SWIFT_PROJECT_PATH?=Examples/HelloWorld
-# LAMBDA_FUNCTION_NAME?=HelloWorld
-# LAMBDA_HANDLER?=$(SWIFT_EXECUTABLE).helloWorld
+SWIFT_EXECUTABLE?=HelloWorld
+SWIFT_PROJECT_PATH?=Examples/HelloWorld
+LAMBDA_FUNCTION_NAME?=HelloWorld
+LAMBDA_HANDLER?=$(SWIFT_EXECUTABLE).helloWorld
 
 # HTTPSRequest Example Configuration
 # SWIFT_EXECUTABLE=HTTPSRequest
@@ -31,10 +31,10 @@ SWIFT_CONFIGURATION=release
 # LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).getObject
 
 # RedisDemo Example Configuration
-SWIFT_EXECUTABLE?=RedisDemo
-SWIFT_PROJECT_PATH?=Examples/RedisDemo
-LAMBDA_FUNCTION_NAME?=RedisDemo
-LAMBDA_HANDLER?=$(SWIFT_EXECUTABLE).setGet
+# SWIFT_EXECUTABLE?=RedisDemo
+# SWIFT_PROJECT_PATH?=Examples/RedisDemo
+# LAMBDA_FUNCTION_NAME?=RedisDemo
+# LAMBDA_HANDLER?=$(SWIFT_EXECUTABLE).setGet
 
 # AWS Configuration
 IAM_ROLE_NAME?=lambda_sprinter_basic_execution

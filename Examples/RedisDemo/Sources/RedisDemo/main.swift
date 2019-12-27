@@ -38,7 +38,9 @@ enum LambdaError: Error {
 }
 
 let logger = Logger(label: "AWS.Lambda.Redis")
-let elasticacheConfigEndpoint = "<your cluster>.euw1.cache.amazonaws.com"
+
+//Change this with your redis endpoint
+let elasticacheConfigEndpoint = "redis"
 
 let eventLoop = httpClient.eventLoopGroup.next()
 let connection = try? RedisConnection.connect(
