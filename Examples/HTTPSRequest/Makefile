@@ -5,4 +5,4 @@ start_docker_compose_env:
 	cd $(SWIFT_PROJECT_PATH); docker-compose up -d; sleep 5
 
 stop_docker_compose_env:
-	cd $(SWIFT_PROJECT_PATH); sleep 5; docker-compose stop
+	cd $(SWIFT_PROJECT_PATH); docker-compose stop

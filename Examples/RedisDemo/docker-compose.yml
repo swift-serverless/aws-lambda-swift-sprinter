@@ -8,7 +8,7 @@ services:
         - ../../swift-shared-libs:/opt/swift-shared-libs:ro,delegated
     environment:
       - DOCKER_LAMBDA_STAY_OPEN=1
-      - AWS_LAMBDA_FUNCTION_TIMEOUT=3
+      - AWS_LAMBDA_FUNCTION_TIMEOUT=10
       - LAMB_CI_EXEC=1
     command:
       - RedisDemo.setGet
