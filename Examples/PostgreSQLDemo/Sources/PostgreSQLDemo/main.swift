@@ -37,8 +37,11 @@ enum LambdaError: Error {
     case connectionFailed
 }
 
-let logger = Logger(label: "AWS.Lambda.Redis")
-let endpoint = "<yourdb>.rds.amazonaws.com"
+let logger = Logger(label: "AWS.Lambda.Postgres")
+
+//let endpoint = "<yourdb>.rds.amazonaws.com"
+let endpoint = "postgres"
+
 do {
     let eventLoop = httpClient.eventLoopGroup.next()
     let connection = try PostgresConnection.connect(
@@ -49,9 +52,9 @@ do {
     
     logger.error("after connection")
     
-    try connection.authenticate(username: "<username>",
-                                database: "<db>",
-                                password: "<password>").wait()
+    try connection.authenticate(username: "username1",
+                                database: "demoDB",
+                                password: "password1").wait()
     
     
     let syncCodableNIOLambda: SyncCodableNIOLambda<Event, Response> = { (event, context) throws -> EventLoopFuture<Response> in
