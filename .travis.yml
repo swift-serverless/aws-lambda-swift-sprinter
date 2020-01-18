@@ -55,6 +55,11 @@ script:
   - make invoke_lambda_local SWIFT_EXECUTABLE=RedisDemo SWIFT_PROJECT_PATH=Examples/RedisDemo LAMBDA_FUNCTION_NAME=RedisDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).setGet
   - make stop_docker_compose_env SWIFT_EXECUTABLE=RedisDemo SWIFT_PROJECT_PATH=Examples/RedisDemo LAMBDA_FUNCTION_NAME=RedisDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).setGet
   - make test_lambda_local_output SWIFT_EXECUTABLE=RedisDemo SWIFT_PROJECT_PATH=Examples/RedisDemo LAMBDA_FUNCTION_NAME=RedisDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).setGet
+  - make build_lambda_local SWIFT_EXECUTABLE=PostgreSQLDemo SWIFT_PROJECT_PATH=Examples/PostgreSQLDemo LAMBDA_FUNCTION_NAME=PostgreSQLDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).query
+  - make start_docker_compose_env SWIFT_EXECUTABLE=PostgreSQLDemo SWIFT_PROJECT_PATH=Examples/PostgreSQLDemo LAMBDA_FUNCTION_NAME=PostgreSQLDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).query
+  - make invoke_lambda_local SWIFT_EXECUTABLE=PostgreSQLDemo SWIFT_PROJECT_PATH=Examples/PostgreSQLDemo LAMBDA_FUNCTION_NAME=PostgreSQLDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).query
+  - make stop_docker_compose_env SWIFT_EXECUTABLE=PostgreSQLDemo SWIFT_PROJECT_PATH=Examples/PostgreSQLDemo LAMBDA_FUNCTION_NAME=PostgreSQLDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).query
+  - make test_lambda_local_output SWIFT_EXECUTABLE=PostgreSQLDemo SWIFT_PROJECT_PATH=Examples/PostgreSQLDemo LAMBDA_FUNCTION_NAME=PostgreSQLDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).query
 
 deploy:
   provider: releases
