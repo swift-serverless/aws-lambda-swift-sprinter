@@ -30,6 +30,12 @@ LAMBDA_HANDLER?=$(SWIFT_EXECUTABLE).helloWorld
 # LAMBDA_FUNCTION_NAME=S3Test
 # LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).getObject
 
+# RedisDemo Example Configuration
+# SWIFT_EXECUTABLE?=RedisDemo
+# SWIFT_PROJECT_PATH?=Examples/RedisDemo
+# LAMBDA_FUNCTION_NAME?=RedisDemo
+# LAMBDA_HANDLER?=$(SWIFT_EXECUTABLE).setGet
+
 # AWS Configuration
 IAM_ROLE_NAME?=lambda_sprinter_basic_execution
 AWS_PROFILE?=default

@@ -11,14 +11,8 @@ services:
       - AWS_LAMBDA_FUNCTION_TIMEOUT=10
       - LAMB_CI_EXEC=1
     command:
-      - S3Test.getObject
+      - RedisDemo.setGet
     ports:
      - "9001:9001"
-  localstack:
-    image: localstack/localstack
-    ports:
-     - "4567-4584:4567-4584"
-    environment:
-     - SERVICES=s3
-    volumes:
-     - ".tmp:/tmp/localstack"
+  redis:
+    image: "redis:alpine"
