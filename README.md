@@ -1,6 +1,6 @@
 # aws-lambda-swift-sprinter
 
-[![Swift 5](https://img.shields.io/badge/Swift-5.0-blue.svg)](https://swift.org/download/) [![Swift 5.1.3](https://img.shields.io/badge/Swift-5.1.3-blue.svg)](https://swift.org/download/)  ![](https://img.shields.io/badge/version-1.0.0--alpha.3-red) ![](https://travis-ci.com/swift-sprinter/aws-lambda-swift-sprinter.svg?branch=master)
+[![Swift 5](https://img.shields.io/badge/Swift-5.0-blue.svg)](https://swift.org/download/) [![Swift 5.1.3](https://img.shields.io/badge/Swift-5.1.3-blue.svg)](https://swift.org/download/)  ![](https://img.shields.io/badge/version-1.0.0--alpha.3-red) ![](https://travis-ci.com/swift-sprinter/aws-lambda-swift-sprinter.svg?branch=master) ![](https://img.shields.io/badge/@AWS-Open-orange.svg)
 
 ![](./images/aws-lambda-swift-sprinter.png)
 
@@ -16,7 +16,7 @@ The project contains also some Examples:
 - [HTTPSRequest](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/Examples/HTTPSRequest): A basic example showing how to perform an HTTPS request from the Swift Lambda using the [LambdaSwiftSprinterNioPlugin](https://github.com/swift-sprinter/aws-lambda-swift-sprinter-nio-plugin)
 - [S3Test](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/Examples/S3Test): A basic example showing how to access an S3 bucket from the Swift Lambda using [https://github.com/swift-aws/aws-sdk-swift](https://github.com/swift-aws/aws-sdk-swift).
 - [RedisDemo](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/blob/master/Examples/RedisDemo): A basic example showing how to connect to Redis from the Swift Lambda using the [RediStack](https://gitlab.com/mordil/swift-redi-stack.git) client.
-- [PostgeSQLDemo](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/tree/master/Examples/PostgreSQLDemo): A basic example showing how to connect to Redis from the Swift Lambda using the [PostgresNIO](https://github.com/vapor/postgres-nio.git) client.
+- [PostgreSQLDemo](https://github.com/swift-sprinter/aws-lambda-swift-sprinter/tree/master/Examples/PostgreSQLDemo): A basic example showing how to connect to Redis from the Swift Lambda using the [PostgresNIO](https://github.com/vapor/postgres-nio.git) client.
 
 # Introduction
 
@@ -506,3 +506,5 @@ This project has been inspired by the amazing work of the following people:
 - Sébastien Stormacq :  https://github.com/sebsto/swift-custom-runtime-lambda
 
 A special thanks to [BJSS](https://www.bjss.com) to sustain me in delivering this project.
+
+This project has been awarded AWS Open Source Promotional Credits for 2020. [@AWSOpen](https://twitter.com/awsopen)
