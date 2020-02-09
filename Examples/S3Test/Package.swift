@@ -10,7 +10,7 @@ let package = Package(
         //.package(path: "../../../aws-lambda-swift-sprinter-core"),
         //.package(url: "https://github.com/swift-sprinter/aws-lambda-swift-sprinter-core", from: "1.0.0-alpha.3"),
         //.package(path: "../../../aws-lambda-swift-sprinter-nio-plugin"),
-        .package(url: "https://github.com/swift-sprinter/aws-lambda-swift-sprinter-nio-plugin", from: "1.0.0-alpha.3"),
+        .package(url: "https://github.com/swift-sprinter/aws-lambda-swift-sprinter-nio-plugin", from: "1.0.0"),
         .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "4.0.0"),
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
     ],

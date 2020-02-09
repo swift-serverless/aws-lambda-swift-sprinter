@@ -8,7 +8,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-         .package(url: "https://github.com/swift-sprinter/aws-lambda-swift-sprinter-nio-plugin", from: "1.0.0-alpha.3"),
+         .package(url: "https://github.com/swift-sprinter/aws-lambda-swift-sprinter-nio-plugin", from: "1.0.0"),
         .package(url: "https://github.com/vapor/postgres-nio.git", from: "1.0.0-alpha.1.6"),
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
     ],
