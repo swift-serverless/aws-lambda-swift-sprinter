@@ -1,6 +1,6 @@
 # RedisDemo
 
-[![Swift 5](https://img.shields.io/badge/Swift-5.0-blue.svg)](https://swift.org/download/) [![Swift 5.1.4](https://img.shields.io/badge/Swift-5.1.4-blue.svg)](https://swift.org/download/)
+[![Swift 5](https://img.shields.io/badge/Swift-5.0-blue.svg)](https://swift.org/download/) [![Swift 5.1.5](https://img.shields.io/badge/Swift-5.1.5-blue.svg)](https://swift.org/download/)
 
 This example shows the usage of the [LambdaSwiftSprinter](https://github.com/swift-sprinter/aws-lambda-swift-sprinter-core) framework and the plugin [LambdaSwiftSprinterNioPlugin](https://github.com/swift-sprinter/aws-lambda-swift-sprinter-nio-plugin) to build a lambda capable to perform an Redis request using
 [RediStack](https://gitlab.com/mordil/swift-redi-stack.git).
