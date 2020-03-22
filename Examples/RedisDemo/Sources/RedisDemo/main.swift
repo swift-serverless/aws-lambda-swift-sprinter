@@ -52,13 +52,14 @@ let connection = try? RedisConnection.connect(
 
 let syncCodableNIOLambda: SyncCodableNIOLambda<Event, Response> = { (event, context) throws -> EventLoopFuture<Response> in
     
-    guard let connection = connection else {
+    guard let connection = connection,
+        let key = RedisKey(rawValue: event.key)  else {
         throw LambdaError.redisConnectionFailed
     }
     
-    let future = connection.set(event.key, to: event.value)
-        .flatMap {
-            return connection.get(event.key)
+    let future = connection.set(key, to: event.value)
+        .flatMap { _ in
+            return connection.get(key)
         }
         .map { content -> Response in
             return Response(value: content ?? "")
