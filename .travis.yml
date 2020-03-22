@@ -65,7 +65,7 @@ deploy:
   provider: releases
   api_key:
     secure: Ddgpz/LsTWeTTr8Xm0br+Vs3Is58V2bOHthwLOt5a1TbyhWAgU+tyc6lwvd51mhQxeNNVPSOWLKC4QgJEp2KI2ZCaw0K+Czb8lqMzWF5eJggDmJ0+wOZIHVEWMO7smLTwDc1jWtdnQA3qkPtXgSw0ERcJ9z4/haz1Q8v7Jj5qfoBJiNxnYYvw/79ElqROIjtQ0asX/i6xhZSlBFO1dXo5QPzX7XeNREQmh2dCkjfoeYSFSCah4Tnn5akxX36Pef1DJvWdFvc623pWAUoCpeswIMW/htby5tJQ6+C9PK+2yzqomKfU9gTK9iv7Nt3X1LN3KsXpk6VHgtljiUkEsecXjYB5WVBT00mY/4bnTPyY6RjI/V6C0aGnTE+0Pj78kDofJKj5uNevFi4vlBI2g4s4G0mRASFRp+sk3ASmzl62Lohkl1LfNiPYKRKRA2jT81s79zBnYv/MQ7t3fY+yd7iP+NrJfDFR/XG0vxBOQrNRpq6LR0M7DeHgTD/d9an2WEqJlX9pp+Ji/ywwepW7b/NLv42xeN99SnHbDmJJ/eZ4P1IC37JCOT5CjJ9wIyP8c+Q89JT30nlvON9xPM8MOx/MrVAGCeqC6FW1Zjc6oakTRZdngMqN1acH5OosLX83cOjjXo8ivRt5Sm2tfX3ZuOgL98kdaYsIBPIYbYhZDODdvM=
-  file: ".build/layer/swift-lambda-runtime-5-1-4.zip"
+  file: ".build/layer/swift-lambda-runtime-5-1-5.zip"
   skip_cleanup: true
   on:
     tags: true
