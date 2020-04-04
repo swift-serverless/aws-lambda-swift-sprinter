@@ -1,10 +1,10 @@
 
 # Use this tag to build a customized local image
 
-SWIFT_VERSION?=5.1.5
-LAYER_VERSION?=5-1-5
-# SWIFT_VERSION=5.0.3
-# LAYER_VERSION=5-0-3
+SWIFT_VERSION?=5.2.1
+LAYER_VERSION?=5-2-1
+# SWIFT_VERSION=5.1.5
+# LAYER_VERSION=5-1-5
 DOCKER_TAG=nio-swift:$(SWIFT_VERSION)
 SWIFT_DOCKER_IMAGE=$(DOCKER_TAG)
 SWIFT_LAMBDA_LIBRARY=nio-swift-lambda-runtime-$(LAYER_VERSION)
@@ -109,7 +109,7 @@ extract_libraries:
 			--volume "$(MOUNT_ROOT)/:/src" \
 			--workdir "/src/$(DOCKER_PROJECT_PATH)" \
 			$(SWIFT_DOCKER_IMAGE) \
-			/bin/bash -c "ldd .build/$(SWIFT_CONFIGURATION)/$(SWIFT_EXECUTABLE) | grep so | sed -e '/^[^\t]/ d' | sed -e 's/\t//' | sed -e 's/(0.*)//'"
+			/bin/bash -c "ldd .build/$(SWIFT_CONFIGURATION)/$(SWIFT_EXECUTABLE) | grep so | sed -e '/^[^\t]/ d' | sed -e 's/\t//' | sed -e 's/(0.*)//' | sort"
 
 build_lambda:
 	docker run \
@@ -123,7 +123,7 @@ test_package:
 	docker run \
 			--rm \
 			--volume "$(MOUNT_ROOT)/:/src" \
-			--workdir "/src/" \
+			--workdir "/src/$(DOCKER_PROJECT_PATH)" \
 			$(SWIFT_DOCKER_IMAGE) \
 			swift test
 

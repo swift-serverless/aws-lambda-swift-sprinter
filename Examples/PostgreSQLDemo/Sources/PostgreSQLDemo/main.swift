@@ -59,8 +59,12 @@ do {
     
     let syncCodableNIOLambda: SyncCodableNIOLambda<Event, Response> = { (event, context) throws -> EventLoopFuture<Response> in
         
-        let future = connection.query(event.query).map { (rows) -> Response in
-            return Response(value: "\(rows)")
+        let future = connection.query(event.query).map { (result) -> Response in
+
+            guard let value = result.rows[0].column("result")?.string else {
+                return Response(value: "")
+            }
+            return Response(value: "\(value)")
             
         }
         return future
