@@ -61,10 +61,10 @@ do {
         
         let future = connection.query(event.query).map { (result) -> Response in
 
-            guard let rows = result.metadata.rows else {
+            guard let value = result.rows[0].column("result")?.string else {
                 return Response(value: "")
             }
-            return Response(value: "\(rows)")
+            return Response(value: "\(value)")
             
         }
         return future
