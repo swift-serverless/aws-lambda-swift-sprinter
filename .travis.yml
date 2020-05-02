@@ -16,13 +16,10 @@ env:
     - AWS_PROFILE=default
 
 addons:
-  apt:
-    packages:
-      - python3-pip
   snaps:
       - name: aws-cli
         confinement: classic # or devmode
-        channel: latest/edge
+        channel: latest/stable
 
 before_install:
   - ./scripts/aws_travis_credentials.sh
