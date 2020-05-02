@@ -16,7 +16,10 @@ env:
     - AWS_PROFILE=default
 
 addons:
-    snaps:
+  apt:
+    packages:
+      - python3-pip
+  snaps:
       - name: aws-cli
         confinement: classic # or devmode
         channel: latest/edge
