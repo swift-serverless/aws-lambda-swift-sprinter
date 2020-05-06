@@ -36,7 +36,9 @@ let logger = Logger(label: "AWS.Lambda.S3Test")
 
 var s3: S3!
 
-let awsClient: AWSHTTPClient = httpClient as! AWSHTTPClient
+guard let awsClient: AWSHTTPClient = httpClient as? AWSHTTPClient else {
+    preconditionFailure()
+}
 
 if ProcessInfo.processInfo.environment["LAMB_CI_EXEC"] == "1" {
     //Used for local test
