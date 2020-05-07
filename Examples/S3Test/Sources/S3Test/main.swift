@@ -18,7 +18,7 @@ import Foundation
 #endif
 import LambdaSwiftSprinterNioPlugin
 import Logging
-import S3
+import AWSS3
 import NIO
 import NIOFoundationCompat
 import AWSSDKSwiftCore
@@ -36,18 +36,22 @@ let logger = Logger(label: "AWS.Lambda.S3Test")
 
 var s3: S3!
 
+guard let awsClient: AWSHTTPClient = httpClient as? AWSHTTPClient else {
+    preconditionFailure()
+}
+
 if ProcessInfo.processInfo.environment["LAMB_CI_EXEC"] == "1" {
     //Used for local test
     s3 = S3(region: .useast1, endpoint: "http://localstack:4572")
     logger.info("Endpoint-URI: http://localstack:4572")
-} else if let awsRegion = ProcessInfo.processInfo.environment["AWS_REGION"],
+} else if let awsRegion = ProcessInfo.processInfo.environment["AWS_REGION"] {
     //The S3 Bucket must be in the same region of the Lambda
-    let region = Region(rawValue: awsRegion) {
-    s3 = S3(region: region)
+    let region = Region(rawValue: awsRegion)
+    s3 = S3(region: region, httpClientProvider: .shared(awsClient))
     logger.info("AWS_REGION: \(region)")
 } else {
     //Default configuration
-    s3 = S3(region: .useast1)
+    s3 = S3(region: .useast1, httpClientProvider: .shared(awsClient))
     logger.info("AWS_REGION: us-east-1")
 }
 
