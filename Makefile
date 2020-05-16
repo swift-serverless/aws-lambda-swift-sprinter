@@ -1,12 +1,11 @@
-
 # Use this tag to build a customized local image
 
 SWIFT_VERSION?=nightly-amazonlinux2
 LAYER_VERSION?=nightly-amazonlinux2
 DOCKER_OS?=amazonlinux2
-# SWIFT_VERSION=5.2.3
-# LAYER_VERSION=5-2-3
-# DOCKER_OS=xenial
+# SWIFT_VERSION=5.2.3-bionic
+# LAYER_VERSION=5-2-3-bionic
+# DOCKER_OS=bionic
 DOCKER_TAG=nio-swift:$(SWIFT_VERSION)
 SWIFT_DOCKER_IMAGE=$(DOCKER_TAG)
 SWIFT_LAMBDA_LIBRARY=nio-swift-lambda-runtime-$(LAYER_VERSION)
