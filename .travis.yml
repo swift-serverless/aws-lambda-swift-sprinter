@@ -27,40 +27,21 @@ before_install:
 install:
   - make --version
   - make docker_build
-
-script:
   - docker image ls
   - make package_layer
   - make package_lambda
-  - make swift_test
-  - make swift_test SWIFT_EXECUTABLE=HTTPSRequest SWIFT_PROJECT_PATH=Examples/HTTPSRequest LAMBDA_FUNCTION_NAME=HTTPSRequest LAMBDA_HANDLER=HTTPSRequest.getHttps
-  - make swift_test SWIFT_EXECUTABLE=S3Test SWIFT_PROJECT_PATH=Examples/S3Test LAMBDA_FUNCTION_NAME=S3Test LAMBDA_HANDLER=S3Test.getObject
-  - make build_lambda_local SWIFT_EXECUTABLE=HelloWorld SWIFT_PROJECT_PATH=Examples/HelloWorld LAMBDA_FUNCTION_NAME=HelloWorld LAMBDA_HANDLER=HelloWorld.helloWorld
-  - make start_docker_compose_env SWIFT_EXECUTABLE=HelloWorld SWIFT_PROJECT_PATH=Examples/HelloWorld LAMBDA_FUNCTION_NAME=HelloWorld LAMBDA_HANDLER=HelloWorld.helloWorld
-  - make invoke_lambda_local SWIFT_EXECUTABLE=HelloWorld SWIFT_PROJECT_PATH=Examples/HelloWorld LAMBDA_FUNCTION_NAME=HelloWorld LAMBDA_HANDLER=HelloWorld.helloWorld
-  - make stop_docker_compose_env SWIFT_EXECUTABLE=HelloWorld SWIFT_PROJECT_PATH=Examples/HelloWorld LAMBDA_FUNCTION_NAME=HelloWorld LAMBDA_HANDLER=HelloWorld.helloWorld
-  - make test_lambda_local_output SWIFT_EXECUTABLE=HelloWorld SWIFT_PROJECT_PATH=Examples/HelloWorld LAMBDA_FUNCTION_NAME=HelloWorld LAMBDA_HANDLER=HelloWorld.helloWorld
-  - make build_lambda_local SWIFT_EXECUTABLE=HTTPSRequest SWIFT_PROJECT_PATH=Examples/HTTPSRequest LAMBDA_FUNCTION_NAME=HTTPSRequest LAMBDA_HANDLER=HTTPSRequest.getHttps
-  - make start_docker_compose_env SWIFT_EXECUTABLE=HTTPSRequest SWIFT_PROJECT_PATH=Examples/HTTPSRequest LAMBDA_FUNCTION_NAME=HTTPSRequest LAMBDA_HANDLER=HTTPSRequest.getHttps
-  - make invoke_lambda_local SWIFT_EXECUTABLE=HTTPSRequest SWIFT_PROJECT_PATH=Examples/HTTPSRequest LAMBDA_FUNCTION_NAME=HTTPSRequest LAMBDA_HANDLER=HTTPSRequest.getHttps
-  - make stop_docker_compose_env SWIFT_EXECUTABLE=HTTPSRequest SWIFT_PROJECT_PATH=Examples/HTTPSRequest LAMBDA_FUNCTION_NAME=HTTPSRequest LAMBDA_HANDLER=HTTPSRequest.getHttps
-  - make test_lambda_local_output SWIFT_EXECUTABLE=HTTPSRequest SWIFT_PROJECT_PATH=Examples/HTTPSRequest LAMBDA_FUNCTION_NAME=HTTPSRequest LAMBDA_HANDLER=HTTPSRequest.getHttps
-  - make build_lambda_local SWIFT_EXECUTABLE=S3Test SWIFT_PROJECT_PATH=Examples/S3Test LAMBDA_FUNCTION_NAME=S3Test LAMBDA_HANDLER=S3Test.getObject
-  - make start_docker_compose_env SWIFT_EXECUTABLE=S3Test SWIFT_PROJECT_PATH=Examples/S3Test LAMBDA_FUNCTION_NAME=S3Test LAMBDA_HANDLER=S3Test.getObject
-  - make invoke_lambda_local SWIFT_EXECUTABLE=S3Test SWIFT_PROJECT_PATH=Examples/S3Test LAMBDA_FUNCTION_NAME=S3Test LAMBDA_HANDLER=S3Test.getObject
-  - make stop_docker_compose_env SWIFT_EXECUTABLE=S3Test SWIFT_PROJECT_PATH=Examples/S3Test LAMBDA_FUNCTION_NAME=S3Test LAMBDA_HANDLER=S3Test.getObject
-  - make test_lambda_local_output SWIFT_EXECUTABLE=S3Test SWIFT_PROJECT_PATH=Examples/S3Test LAMBDA_FUNCTION_NAME=S3Test LAMBDA_HANDLER=S3Test.getObject
-  - make build_lambda_local SWIFT_EXECUTABLE=RedisDemo SWIFT_PROJECT_PATH=Examples/RedisDemo LAMBDA_FUNCTION_NAME=RedisDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).setGet
-  - make start_docker_compose_env SWIFT_EXECUTABLE=RedisDemo SWIFT_PROJECT_PATH=Examples/RedisDemo LAMBDA_FUNCTION_NAME=RedisDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).setGet
-  - make invoke_lambda_local SWIFT_EXECUTABLE=RedisDemo SWIFT_PROJECT_PATH=Examples/RedisDemo LAMBDA_FUNCTION_NAME=RedisDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).setGet
-  - make stop_docker_compose_env SWIFT_EXECUTABLE=RedisDemo SWIFT_PROJECT_PATH=Examples/RedisDemo LAMBDA_FUNCTION_NAME=RedisDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).setGet
-  - make test_lambda_local_output SWIFT_EXECUTABLE=RedisDemo SWIFT_PROJECT_PATH=Examples/RedisDemo LAMBDA_FUNCTION_NAME=RedisDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).setGet
-  - make build_lambda_local SWIFT_EXECUTABLE=PostgreSQLDemo SWIFT_PROJECT_PATH=Examples/PostgreSQLDemo LAMBDA_FUNCTION_NAME=PostgreSQLDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).query
-  - make start_docker_compose_env SWIFT_EXECUTABLE=PostgreSQLDemo SWIFT_PROJECT_PATH=Examples/PostgreSQLDemo LAMBDA_FUNCTION_NAME=PostgreSQLDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).query
-  - make invoke_lambda_local SWIFT_EXECUTABLE=PostgreSQLDemo SWIFT_PROJECT_PATH=Examples/PostgreSQLDemo LAMBDA_FUNCTION_NAME=PostgreSQLDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).query
-  - make stop_docker_compose_env SWIFT_EXECUTABLE=PostgreSQLDemo SWIFT_PROJECT_PATH=Examples/PostgreSQLDemo LAMBDA_FUNCTION_NAME=PostgreSQLDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).query
-  - make test_lambda_local_output SWIFT_EXECUTABLE=PostgreSQLDemo SWIFT_PROJECT_PATH=Examples/PostgreSQLDemo LAMBDA_FUNCTION_NAME=PostgreSQLDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).query
 
+env:
+  - SWIFT_EXECUTABLE=HelloWorld SWIFT_PROJECT_PATH=Examples/HelloWorld LAMBDA_FUNCTION_NAME=HelloWorld LAMBDA_HANDLER=HelloWorld.helloWorld
+  - SWIFT_EXECUTABLE=HTTPSRequest SWIFT_PROJECT_PATH=Examples/HTTPSRequest LAMBDA_FUNCTION_NAME=HTTPSRequest LAMBDA_HANDLER=HTTPSRequest.getHttps
+  - SWIFT_EXECUTABLE=S3Test SWIFT_PROJECT_PATH=Examples/S3Test LAMBDA_FUNCTION_NAME=S3Test LAMBDA_HANDLER=S3Test.getObject
+  - SWIFT_EXECUTABLE=RedisDemo SWIFT_PROJECT_PATH=Examples/RedisDemo LAMBDA_FUNCTION_NAME=RedisDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).setGet
+  - SWIFT_EXECUTABLE=PostgreSQLDemo SWIFT_PROJECT_PATH=Examples/PostgreSQLDemo LAMBDA_FUNCTION_NAME=PostgreSQLDemo LAMBDA_HANDLER=$(SWIFT_EXECUTABLE).query
+
+script:
+  - make swift_test 
+  - make run_test_example
+ 
 deploy:
   provider: releases
   api_key:

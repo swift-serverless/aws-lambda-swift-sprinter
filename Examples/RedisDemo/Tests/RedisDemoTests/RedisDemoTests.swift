@@ -12,7 +12,7 @@ final class RedisDemoTests: XCTestCase {
             return
         }
 
-        let fooBinary = productsDirectory.appendingPathComponent("aws-lambda-swift-sprinter-redis")
+        let fooBinary = productsDirectory.appendingPathComponent("RedisDemo")
 
         let process = Process()
         process.executableURL = fooBinary
@@ -26,7 +26,9 @@ final class RedisDemoTests: XCTestCase {
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = String(data: data, encoding: .utf8)
 
-        XCTAssertEqual(output, "Hello, world!\n")
+        let isError = output?.contains("missingEnvironmentVariables(LambdaSwiftSprinter.Context.AWSEnvironmentKey.lambdaRuntimeApi)")
+
+        XCTAssertEqual(isError, true)
     }
 
     /// Returns path to the built products directory.

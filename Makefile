@@ -262,3 +262,5 @@ stop_docker_compose_env:
 
 test_lambda_local_output:
 	cmp $(TMP_BUILD_PATH)/outfile $(SWIFT_PROJECT_PATH)/outfile.json
+
+run_test_example: build_lambda_local start_docker_compose_env invoke_lambda_local stop_docker_compose_env test_lambda_local_output
