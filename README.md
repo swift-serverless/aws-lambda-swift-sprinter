@@ -1,12 +1,10 @@
 # aws-lambda-swift-sprinter
 
-[![Swift 5](https://img.shields.io/badge/Swift-5.0-blue.svg)](https://swift.org/download/) [![Swift 5.1.5](https://img.shields.io/badge/Swift-5.1.5-blue.svg)](https://swift.org/download/) [![Swift 5.2.3](https://img.shields.io/badge/Swift-5.2.3-blue.svg)](https://swift.org/download/)  ![](https://img.shields.io/badge/version-1.0.0-green) ![](https://travis-ci.com/swift-sprinter/aws-lambda-swift-sprinter.svg?branch=master) ![](https://img.shields.io/badge/@AWS-Open-orange.svg)
+![](https://img.shields.io/badge/@AWS-Open-orange.svg) [![Swift 5](https://img.shields.io/badge/Swift-5.0-blue.svg)](https://swift.org/download/) [![Swift 5.1.5](https://img.shields.io/badge/Swift-5.1.5-blue.svg)](https://swift.org/download/) [![Swift 5.2.4](https://img.shields.io/badge/Swift-5.2.4-blue.svg)](https://swift.org/download/)  ![](https://img.shields.io/badge/version-1.1.0-green) ![](https://travis-ci.com/swift-sprinter/aws-lambda-swift-sprinter.svg?branch=master) ![](https://img.shields.io/badge/docker-amazonlinux2-orange.svg) ![](https://img.shields.io/badge/docker-ubuntu--xenial-pink.svg)
 
 ![](./images/aws-lambda-swift-sprinter.png)
 
 The goal of this project is to provide an environment to build an [AWS Lambda Custom Runtime](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-custom.html) for the **Swift** programming language and provide the required support to run [swift-nio 2.0](https://github.com/apple/swift-nio).
-
-The support of **swift-nio 2.0** is crucial to allow HTTPS requests inside the Swift Lambda.
 
 The project helps building a Swift Lambda based on the framework [LambdaSwiftSprinter](https://github.com/swift-sprinter/aws-lambda-swift-sprinter-core).
 
@@ -20,9 +18,9 @@ The project contains also some Examples:
 
 # Introduction
 
-The AWS Lambdas run on [Amazon Linux](https://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html). Unfortunately, there is no support at the moment for Swift on Amazon Linux. This means that the Lambda cannot be built using `swift build` inside the Amazon Linux image.
+The AWS Lambdas run on [Amazon Linux](https://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html).
 
-The work-around to build swift on Amazon Linux is achieved by:
+To build swift on Amazon Linux is required to:
  - building the code on the [official Docker Swift](https://hub.docker.com/_/swift/)
  - extracting the build and all the runtime's shared libraries
  - packaging the artefacts and use them as [AWS Lambda Custom Runtime](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-custom.html)
@@ -177,6 +175,7 @@ make invoke_lambda \
 | AWS_BUCKET | The AWS S3 bucket where the layer and lambdas zip files get uploaded. | aws-lambda-swift-sprinter |
 | SWIFT_VERSION | Version of Swift used / Matches Dockerfile location too from `docker/` folder. | 5.2.3 |
 | LAYER_VERSION | Version of the Swift layer that will be created and uploaded for the Lambda to run on. | 5-2-3 |
+| DOCKER_OS | amazonlinux2 / xenial | amazonlinux2 |
 | SWIFT_EXECUTABLE | Name of the binary file. | HelloWorld |
 | SWIFT_PROJECT_PATH | Path to your Swift project. | Examples/HelloWorld |
 | LAMBDA_FUNCTION_NAME | Display name of your Lambda in AWS. | HelloWorld |

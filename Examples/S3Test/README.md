@@ -22,9 +22,10 @@ import Foundation
 #endif
 import LambdaSwiftSprinterNioPlugin
 import Logging
-import S3
+import AWSS3
 import NIO
 import NIOFoundationCompat
+import AWSSDKSwiftCore
 
 struct Bucket: Codable {
     let name: String
@@ -39,7 +40,10 @@ struct Response: Codable {
 Change the region with the region of your S3 bucket.
 
 ```swift
-let s3 = S3(region: .euwest1)
+guard let awsClient: AWSHTTPClient = httpClient as? AWSHTTPClient else {
+    preconditionFailure()
+}
+let s3 = S3(region: .euwest1, httpClientProvider: .shared(awsClient))
 ```
 
 add a logger:

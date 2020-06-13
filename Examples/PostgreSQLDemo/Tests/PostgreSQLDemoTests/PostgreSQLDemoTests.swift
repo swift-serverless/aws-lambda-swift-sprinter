@@ -25,8 +25,9 @@ final class PostgreSQLDemoTests: XCTestCase {
 
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = String(data: data, encoding: .utf8)
+        let isError = output?.contains("unknown(host: \"postgres\", port: 5432)\n")
 
-        XCTAssertEqual(output, "Hello, world!\n")
+        XCTAssertEqual(isError, true)
     }
 
     /// Returns path to the built products directory.

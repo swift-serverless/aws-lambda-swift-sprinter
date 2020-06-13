@@ -1,10 +1,11 @@
-
 # Use this tag to build a customized local image
 
-SWIFT_VERSION?=5.2.3
-LAYER_VERSION?=5-2-3
-# SWIFT_VERSION=5.1.5
-# LAYER_VERSION=5-1-5
+SWIFT_VERSION?=5.2.4-amazonlinux2
+LAYER_VERSION?=5.2.4-amazonlinux2
+DOCKER_OS?=amazonlinux2
+# SWIFT_VERSION=5.2.3-bionic
+# LAYER_VERSION=5-2-3-bionic
+# DOCKER_OS=bionic
 DOCKER_TAG=nio-swift:$(SWIFT_VERSION)
 SWIFT_DOCKER_IMAGE=$(DOCKER_TAG)
 SWIFT_LAMBDA_LIBRARY=nio-swift-lambda-runtime-$(LAYER_VERSION)
@@ -58,6 +59,8 @@ LOCAL_LAMBDA_PATH=$(ROOT_BUILD_PATH)/local
 LOCALSTACK_TMP=$(ROOT_BUILD_PATH)/.tmp
 TMP_BUILD_PATH=$(ROOT_BUILD_PATH)/tmp
 DATETIME=$(shell date +'%y%m%d-%H%M%S')
+DOCKER_FOLDER=docker
+BOOTSTRAP=$(DOCKER_FOLDER)/$(SWIFT_VERSION)/bootstrap
 
 # use this for local development
 MOUNT_ROOT=$(shell pwd)/..
@@ -145,19 +148,22 @@ clean_layer:
 package_layer: create_build_directory clean_layer
 	$(eval SHARED_LIBRARIES := $(shell cat docker/$(SWIFT_VERSION)/swift-shared-libraries.txt | tr '\n' ' '))
 	mkdir -p $(SHARED_LIBS_FOLDER)/lib
+ifeq '$(DOCKER_OS)' 'xenial'
 	docker run \
 			--rm \
 			--volume "$(shell pwd)/:/src" \
 			--workdir "/src" \
 			$(SWIFT_DOCKER_IMAGE) \
 			cp /lib64/ld-linux-x86-64.so.2 $(SHARED_LIBS_FOLDER)
+endif
 	docker run \
 			--rm \
 			--volume "$(shell pwd)/:/src" \
 			--workdir "/src" \
 			$(SWIFT_DOCKER_IMAGE) \
 			cp -t $(SHARED_LIBS_FOLDER)/lib $(SHARED_LIBRARIES)
-	zip -r $(LAYER_BUILD_PATH)/$(LAYER_ZIP) bootstrap $(SHARED_LIBS_FOLDER)
+	cp $(BOOTSTRAP) $(SHARED_LIBS_FOLDER)
+	cd $(SHARED_LIBS_FOLDER); pwd; zip -r ../$(LAYER_BUILD_PATH)/$(LAYER_ZIP) bootstrap lib
 
 upload_build_to_s3: create_lambda_s3_key
 	aws s3 sync --acl public-read "$(LAMBDA_BUILD_PATH)" s3://$(AWS_BUCKET)/$(LAMBDA_S3_UPLOAD_PATH) --profile $(AWS_PROFILE)
@@ -230,8 +236,8 @@ invoke_lambda_local_once:
 	$(eval LOCAL_LAMBDA_EVENT := '$(shell cat $(SWIFT_PROJECT_PATH)/event.json)')
 	docker run --rm \
 	-v "$(PWD)/$(LOCAL_LAMBDA_PATH)":/var/task:ro,delegated \
-	-v "$(PWD)/bootstrap":/opt/bootstrap:ro,delegated \
-	-v "$(PWD)/$(SHARED_LIBS_FOLDER)":/opt/swift-shared-libs:ro,delegated \
+	-v "$(PWD)/$(BOOTSTRAP)":/opt/bootstrap:ro,delegated \
+	-v "$(PWD)/$(SHARED_LIBS_FOLDER)":/opt:ro,delegated \
 	lambci/lambda:provided $(LAMBDA_HANDLER) $(LOCAL_LAMBDA_EVENT)
 
 start_lambda_local_env:
@@ -239,8 +245,8 @@ start_lambda_local_env:
 	-e DOCKER_LAMBDA_STAY_OPEN=1 \
 	-p 9001:9001 \
 	-v "$(PWD)/$(LOCAL_LAMBDA_PATH)":/var/task:ro,delegated \
-	-v "$(PWD)/bootstrap":/opt/bootstrap:ro,delegated \
-	-v "$(PWD)/$(SHARED_LIBS_FOLDER)":/opt/swift-shared-libs:ro,delegated \
+	-v "$(PWD)/$(BOOTSTRAP)":/opt/bootstrap:ro,delegated \
+	-v "$(PWD)/$(SHARED_LIBS_FOLDER)":/opt/:ro,delegated \
   	lambci/lambda:provided \
 	$(LAMBDA_HANDLER)
 
@@ -256,3 +262,5 @@ stop_docker_compose_env:
 
 test_lambda_local_output:
 	cmp $(TMP_BUILD_PATH)/outfile $(SWIFT_PROJECT_PATH)/outfile.json
+
+run_test_example: build_lambda_local start_docker_compose_env invoke_lambda_local stop_docker_compose_env test_lambda_local_output
